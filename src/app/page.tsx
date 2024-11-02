@@ -31,11 +31,7 @@ type VtuberThaiInfoResponse = {
 }
 
 export default function Home() {
-   const [lastVdos, setLastVdos] = useState<VtuberThaiInfoResponse[]>([
-      ...newLive,
-      ...newUpload,
-      ...newShort,
-   ] as any[])
+   const [lastVdos, setLastVdos] = useState<VtuberThaiInfoResponse[]>([])
    const [live, setLive] = useState<VtuberThaiInfoResponse>()
    const [upcoming, setUpcoming] = useState<VtuberThaiInfoResponse>()
    const [finished, setFinished] = useState<VtuberThaiInfoResponse>()
@@ -112,7 +108,7 @@ export default function Home() {
 
    useEffect(() => {
       fetchData()
-      fetchJson()
+      // fetchJson()
    }, [])
 
    useEffect(() => {
@@ -185,7 +181,7 @@ export default function Home() {
    }
 
    return (
-      <div className='h-screen flex flex-col justify-between items-center text-[#985175]'>
+      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-[#985175]'>
          <div />
          <div className='flex flex-col gap-6 justify-center items-center w-full'>
             {live ? (
@@ -235,52 +231,73 @@ export default function Home() {
                   </div>
                </>
             ) : (
-               <p className='text-2xl'>เว็บพัง</p>
+               <>
+                  <p className='text-2xl'>เว็บพัง</p>
+                  <img
+                     src='/img/sad-jellyfish.jpg'
+                     className='max-w-52'
+                     alt='sad-jellyfish'
+                  />
+               </>
             )}
          </div>
-         <footer className='flex flex-col gap-2 items-center'>
-            <p>ช่องทางการติดตามลูน่า</p>
+         <footer className='flex flex-col gap-2 items-center p-2'>
+            <p className='text-xl'>ช่องทางการติดตามลูน่า</p>
             <div className='flex gap-3 items-center justify-center'>
-               <YoutubeLogo
-                  size={24}
-                  weight='fill'
-                  onClick={() =>
-                     window.open(
-                        'https://www.youtube.com/c/LunatrixCh?sub_confirmation=1'
-                     )
-                  }
-               />
-               <FacebookLogo
-                  size={24}
-                  weight='fill'
-                  onClick={() =>
-                     window.open('https://www.facebook.com/LTX022/')
-                  }
-               />
-               <XLogo
-                  size={24}
-                  weight='fill'
-                  onClick={() =>
-                     window.open(
-                        'https://x.com/intent/follow?screen_name=LTX022'
-                     )
-                  }
-               />
-               <TiktokLogo
-                  size={24}
-                  weight='fill'
-                  onClick={() => window.open('https://www.tiktok.com/@ltx022')}
-               />
-               <TwitchLogo
-                  size={24}
-                  weight='fill'
-                  onClick={() => window.open('https://www.twitch.tv/ltx022')}
-               />
+               <a
+                  href='https://www.youtube.com/c/LunatrixCh?sub_confirmation=1'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:scale-[1.1] hover: cursor-pointer relative'
+               >
+                  <p
+                     hidden={!!live || !!upcoming || !!finished}
+                     className='absolute text-sm w-[120px] bottom-5 -left-[100px] -rotate-[30deg]'
+                  >
+                     ดูคลิปเก่าไปก่อน
+                  </p>
+                  <img
+                     hidden={!!live || !!upcoming || !!finished}
+                     src='/img/live.webp'
+                     alt='live'
+                     className='absolute -bottom-[42px] -left-16 scale-x-[-1] min-w-24'
+                  />
+                  <YoutubeLogo size={32} weight='fill' />
+               </a>
+               <a
+                  href='https://www.facebook.com/LTX022/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:scale-[1.1] hover: cursor-pointer'
+               >
+                  <FacebookLogo size={32} weight='fill' />
+               </a>
+               <a
+                  href='https://x.com/intent/follow?screen_name=LTX022'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:scale-[1.1] hover: cursor-pointer'
+               >
+                  <XLogo size={32} weight='fill' />
+               </a>
+               <a
+                  href='https://www.tiktok.com/@ltx022'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:scale-[1.1] hover: cursor-pointer'
+               >
+                  <TiktokLogo size={32} weight='fill' />
+               </a>
+               <a
+                  href='https://www.twitch.tv/ltx022'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:scale-[1.1] hover: cursor-pointer'
+               >
+                  <TwitchLogo size={32} weight='fill' />
+               </a>
             </div>
-            <p>
-               จัดทำโดยแอ้ขป. (อ่านว่าขอปอ ไม่ใช่ขป ถ้าจะเรียกขป
-               เน้นเสียงป.ปลาด้วย)
-            </p>
+            <p className='text-center'>จัดทำโดยแอ้ขป.</p>
          </footer>
       </div>
    )
