@@ -2,20 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+   font-family: 'Itim';
+   src: url('/fonts/Itim-Regular.ttf') format('truetype');
+   font-weight: 400;
+   /* Thin */
+   font-style: normal;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+   background-color: white;
+   font-family: 'Itim', cursive;
 }
