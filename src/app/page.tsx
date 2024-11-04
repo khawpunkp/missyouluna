@@ -18,46 +18,58 @@ dayjs.locale('th')
 import duration, { Duration } from 'dayjs/plugin/duration'
 dayjs.extend(duration)
 
-type VtuberThaiInfoResponse = {
-   title: string
-   thumbnail: string
-   datetime: string
-   status: 'LIVE' | 'UNAVAILABLE' | 'UPCOMING' | 'FINISHED'
-   type: 'LIVE' | 'UPLOADED' | 'SHORT'
-   url: string
+type VideoResource = {
+   kind: 'youtube#video'
+   id: string
+   snippet: {
+      publishedAt: string
+      channelId: string
+      title: string
+      description: string
+      thumbnails: {
+         maxres: {
+            url: string
+            width: number
+            height: number
+         }
+      }
+      channelTitle: string
+      categoryId: string
+      liveBroadcastContent: 'live' | 'none' | 'upcoming'
+      localized: {
+         title: string
+         description: string
+      }
+   }
+   liveStreamingDetails: {
+      actualStartTime: string
+      actualEndTime: string
+      scheduledStartTime: string
+      scheduledEndTime: string
+   }
 }
-
 export default function Home() {
-   const [lastVdos, setLastVdos] = useState<VtuberThaiInfoResponse[]>([])
-   const [live, setLive] = useState<VtuberThaiInfoResponse>()
-   const [upcoming, setUpcoming] = useState<VtuberThaiInfoResponse>()
-   const [finished, setFinished] = useState<VtuberThaiInfoResponse>()
-   const [targetTime, setTargetTime] = useState<string>('')
+   const [resource, setResource] = useState<VideoResource[]>([])
+   const [live, setLive] = useState<VideoResource>()
+   const [upcoming, setUpcoming] = useState<VideoResource>()
+   const [finished, setFinished] = useState<VideoResource>()
+   const [targetTime, setTargetTime] = useState<{
+      type: 'live' | 'none' | 'upcoming'
+      time: string
+   }>()
    const [timeLeft, setTimeLeft] = useState<Duration>()
 
-   const fetchData = async () => {
+   const getVideos = async () => {
       try {
-         const live = await axios.get(
-            'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/LIVE/new'
-         )
-         setLastVdos((prev) => [...prev, ...live.data.data])
-         const uploaded = await axios.get(
-            'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/UPLOADED/new'
-         )
-         setLastVdos((prev) => [...prev, ...uploaded.data.data])
-         const short = await axios.get(
-            'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/SHORT/new'
-         )
-         setLastVdos((prev) => [...prev, ...short.data.data])
-      } catch (error) {
-         console.error(error)
-      }
+         const response = await axios.get('https://missyouluna-service.vercel.app/api/last-vdo')
+         setResource(response.data.items)
+      } catch (error: any) {}
    }
 
    const findLastLive = (): boolean => {
-      const lastLive = lastVdos
-         ?.filter((stream) => stream.status === 'LIVE')
-         .sort((a, b) => dayjs(b.datetime).diff(dayjs(a.datetime)))
+      const lastLive = resource?.filter(
+         (stream) => stream.snippet.liveBroadcastContent === 'live'
+      )
 
       setLive(lastLive?.[0] as any)
 
@@ -65,9 +77,15 @@ export default function Home() {
    }
 
    const findLastUpcoming = (): boolean => {
-      const lastUpcoming = lastVdos
-         ?.filter((stream) => dayjs(stream.datetime) > dayjs())
-         .sort((a, b) => dayjs(a.datetime).diff(dayjs(b.datetime)))
+      const lastUpcoming = resource
+         ?.filter(
+            (stream) => stream.snippet.liveBroadcastContent === 'upcoming'
+         )
+         .sort((a, b) =>
+            dayjs(a.liveStreamingDetails.scheduledStartTime).diff(
+               dayjs(b.liveStreamingDetails.scheduledStartTime)
+            )
+         )
 
       setUpcoming(lastUpcoming?.[0] as any)
 
@@ -75,83 +93,95 @@ export default function Home() {
    }
 
    const findLastFinished = () => {
-      const lastFinished = lastVdos
+      const lastFinished = resource
          ?.filter(
             (stream) =>
-               dayjs(stream.datetime) < dayjs() && stream.type !== 'LIVE'
+               dayjs(stream.snippet.publishedAt) < dayjs() &&
+               stream.snippet.liveBroadcastContent === 'none'
          )
-         .sort((a, b) => dayjs(b.datetime).diff(dayjs(a.datetime)))
+         .sort((a, b) =>
+            dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt))
+         )
 
       setFinished(lastFinished?.[0] as any)
    }
 
    useEffect(() => {
-      fetchData()
+      getVideos()
    }, [])
 
    useEffect(() => {
       findLastLive()
       findLastUpcoming()
       findLastFinished()
-   }, [lastVdos])
+   }, [resource])
 
    useEffect(() => {
-      if (live) setTargetTime(live.datetime ?? '')
+      if (live) setTargetTime({type: 'live' , time: live.liveStreamingDetails.actualStartTime})
    }, [live])
 
    useEffect(() => {
-      if (!live) setTargetTime(upcoming?.datetime ?? '')
+      if (!live && upcoming)
+         setTargetTime({type:'upcoming' , time: upcoming?.liveStreamingDetails.actualStartTime})
    }, [upcoming])
 
    useEffect(() => {
-      if (!upcoming) setTargetTime(finished?.datetime ?? '')
+      if (!upcoming && finished) setTargetTime({type: 'none' , time: finished?.liveStreamingDetails.actualStartTime})
    }, [finished])
 
    useEffect(() => {
       const timerId = setInterval(() => {
-         const newDuration = dayjs(targetTime).isAfter(dayjs())
-            ? dayjs.duration(dayjs(targetTime).diff(dayjs()))
-            : dayjs.duration(dayjs(dayjs()).diff(targetTime))
+         const newDuration = targetTime?.type === 'upcoming'
+            ? dayjs.duration(dayjs(targetTime?.time).diff(dayjs()))
+            : dayjs.duration(dayjs(dayjs()).diff(targetTime?.time))
          setTimeLeft(newDuration)
          dayjs()
+         // Clear the interval when the countdown is complete
          if (newDuration.asSeconds() <= 0) {
+            window.open('https://www.youtube.com/watch?v=' + upcoming?.id)
             clearInterval(timerId)
          }
       }, 1000)
 
+      // Cleanup the interval on component unmount
       return () => clearInterval(timerId)
    }, [targetTime])
 
-   function VideoCard({ data }: { data: VtuberThaiInfoResponse }) {
+   function VideoCard({ data }: { data: VideoResource }) {
       return (
          <div
-            onClick={() => window.open(data.url)}
+            onClick={() =>
+               window.open('https://www.youtube.com/watch?v=' + data.id)
+            }
             className='flex flex-col hover:scale-[1.02] hover: cursor-pointer rounded-2xl bg-white w-[30%] mobile:w-[80%]'
          >
-            <div className='w-full h-fit p-2 relative'>
+            <div className='w-full h-fit p-2 pb-0 relative'>
                <img
-                  src={data.thumbnail}
+                  src={data.snippet.thumbnails.maxres.url}
                   alt='thumbnail'
                   className='aspect-video w-full rounded-xl object-cover border'
                />
                <div
-                  className={`absolute bottom-4 right-4 flex gap-2 text-white rounded-md p-2 rounded- ${
-                     data.status === 'LIVE'
+                  className={`absolute bottom-2 right-4 flex gap-2 text-white rounded-md p-2 rounded- ${
+                     data.snippet.liveBroadcastContent === 'live'
                         ? 'bg-[#FF0000cc]'
                         : 'bg-[#000000cc]'
                   }`}
                >
-                  {dayjs(data.datetime) > dayjs() || data.status === 'LIVE' ? (
+                  {dayjs(targetTime?.time) > dayjs() ||
+                  data.snippet.liveBroadcastContent === 'live' ? (
                      <Broadcast color='white' size={24} />
                   ) : (
                      'อัปโหลดเมื่อ '
                   )}
-                  {data.status === 'LIVE'
+                  {data.snippet.liveBroadcastContent === 'live'
                      ? timeLeft?.format('HH:mm:ss')
-                     : dayjs(data.datetime).format('DD MMMM เวลา HH:mm น.')}
+                     : dayjs(targetTime?.time).format('DD MMMM เวลา HH:mm น.')}
                </div>
             </div>
-            <div className='flex flex-col gap-4 p-4 text-xl'>{data.title}</div>
+            <div className='flex flex-col gap-4 p-4 text-xl'>
+               {data.snippet.title}
+            </div>
          </div>
       )
    }
@@ -160,19 +190,23 @@ export default function Home() {
       <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-[#985175]'>
          <div />
          <div className='flex flex-col gap-6 justify-center items-center w-full'>
-            {live ? (
+            {!!live ? (
                <>
                   <p className='text-2xl'>ลูน่าไลฟ์อยู่ที่</p>
                   <VideoCard data={live} />
                   <div
                      className='flex flex-col items-center gap-1 hover:cursor-pointer'
-                     onClick={() => window.open(live.url)}
+                     onClick={() =>
+                        window.open(
+                           'https://www.youtube.com/watch?v=' + live.id
+                        )
+                     }
                   >
                      <img src='/img/live.webp' alt='live' />
                      <p className='text-xl'>ไปดูดิ</p>
                   </div>
                </>
-            ) : upcoming ? (
+            ) : !!upcoming ? (
                <>
                   <p className='text-2xl'>แล้วลูน่าจะกลับมา</p>
                   <VideoCard data={upcoming} />
@@ -184,7 +218,11 @@ export default function Home() {
                   </p>
                   <div
                      className='flex flex-col items-center gap-1 hover:cursor-pointer'
-                     onClick={() => window.open(upcoming.url)}
+                     onClick={() =>
+                        window.open(
+                           'https://www.youtube.com/watch?v=' + upcoming.id
+                        )
+                     }
                   >
                      <img src='/img/wait.webp' alt='wait' />
                      <p className='text-xl'>ไปรอดิ</p>
@@ -219,27 +257,25 @@ export default function Home() {
          </div>
          <footer className='flex flex-col gap-2 items-center p-2'>
             <p className='text-xl'>ช่องทางการติดตามลูน่า</p>
-            <div className='flex gap-4 items-center justify-center'>
+            <div className='flex gap-3 items-center justify-center'>
                <a
                   href='https://www.youtube.com/c/LunatrixCh?sub_confirmation=1'
                   target='_blank'
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer relative'
                >
-                  {/* <p
+                  <p
                      hidden={!!live || !!upcoming || !!finished}
-                     className='absolute text-sm text-center bottom-3 -left-[90px] -rotate-[30deg]'
+                     className='absolute text-sm w-[120px] bottom-5 -left-[100px] -rotate-[30deg]'
                   >
-                     ดูคลิปเก่า
-                     <br />
-                     ไปก่อน
+                     ดูคลิปเก่าไปก่อน
                   </p>
                   <img
                      hidden={!!live || !!upcoming || !!finished}
                      src='/img/live.webp'
                      alt='live'
-                     className='absolute -bottom-[42px] -left-[75px] scale-x-[-1] min-w-24'
-                  /> */}
+                     className='absolute -bottom-[42px] -left-16 scale-x-[-1] min-w-24'
+                  />
                   <YoutubeLogo size={32} weight='fill' />
                </a>
                <a
@@ -275,17 +311,14 @@ export default function Home() {
                   <TwitchLogo size={32} weight='fill' />
                </a>
             </div>
-            <p className='text-center'>รูปลูน่ากับแอ้วาดโดยลูน่า</p>
+            <p
+               className='text-transparent'
+               hidden={!!live || !!upcoming || !!finished}
+            >
+               .
+            </p>
             <p className='text-center'>
-               {'เขียนเว็บโดยขป. API โดย '}
-               <a
-                  href='https://www.vtuberthaiinfo.com/'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:scale-[1.1] hover: cursor-pointer'
-               >
-                  VtuberThaiInfo.com
-               </a>
+               รูปลูน่ากับแอ้วาดโดยลูน่า เขียนเว็บโดยขป.
             </p>
          </footer>
       </div>
