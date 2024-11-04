@@ -204,7 +204,7 @@ export default function Home() {
       return (
          <a
             className='flex gap-2 items-center text-xl rounded-full py-2 px-4 hover:scale-[1.1] bg-[#985175] text-[#FECFE7]'
-            href='https://x.com/intent/post?hashtags=Trixarium&text=คิดถึงลูน่าค้าบ'
+            href='https://twitter.com/intent/tweet?hashtags=Trixarium&related=twitterapi%2Ctwitter&text=คิดถึงลูน่าค้าบ'
             target='_blank'
             rel='noopener noreferrer'
          >
@@ -233,7 +233,7 @@ export default function Home() {
                      <img src='/img/live.webp' alt='live' />
                      <p className='text-xl'>ไปดูดิ</p>
                   </div>
-                  <TweetButton/>
+                  <TweetButton />
                </>
             ) : !!upcoming ? (
                <>
@@ -256,7 +256,7 @@ export default function Home() {
                      <img src='/img/wait.webp' alt='wait' />
                      <p className='text-xl'>ไปรอดิ</p>
                   </div>
-                  <TweetButton/>
+                  <TweetButton />
                </>
             ) : finished ? (
                <>
@@ -273,7 +273,7 @@ export default function Home() {
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
                   </div>
-                  <TweetButton/>
+                  <TweetButton />
                </>
             ) : (
                <>
@@ -283,7 +283,7 @@ export default function Home() {
                      className='max-w-52'
                      alt='sad-jellyfish'
                   />
-                  <TweetButton/>
+                  <TweetButton />
                </>
             )}
          </div>
