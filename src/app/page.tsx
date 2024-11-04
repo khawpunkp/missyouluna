@@ -122,7 +122,7 @@ export default function Home() {
 
    useEffect(() => {
       if (!live && upcoming)
-         setTargetTime({type:'upcoming' , time: upcoming?.liveStreamingDetails.actualStartTime})
+         setTargetTime({type:'upcoming' , time: upcoming?.liveStreamingDetails.scheduledStartTime})
    }, [upcoming])
 
    useEffect(() => {
