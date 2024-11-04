@@ -51,10 +51,6 @@ export default function Home() {
          setLastVdos((prev) => [...prev, ...short.data.data])
       } catch (error) {
          console.error(error)
-      } finally {
-         findLastLive()
-         findLastUpcoming()
-         findLastFinished()
       }
    }
 
@@ -92,6 +88,12 @@ export default function Home() {
    useEffect(() => {
       fetchData()
    }, [])
+
+   useEffect(() => {
+      findLastLive()
+      findLastUpcoming()
+      findLastFinished()
+   }, [lastVdos])
 
    useEffect(() => {
       if (live) setTargetTime(live.datetime ?? '')
