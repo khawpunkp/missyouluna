@@ -3,9 +3,6 @@
 import axios from 'axios'
 
 import { useEffect, useState } from 'react'
-import newLive from '../../public/json/live.json'
-import newUpload from '../../public/json/upload.json'
-import newShort from '../../public/json/short.json'
 import {
    Broadcast,
    FacebookLogo,
@@ -52,7 +49,13 @@ export default function Home() {
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/SHORT/new'
          )
          setLastVdos((prev) => [...prev, ...short.data.data])
-      } catch (error) {}
+      } catch (error) {
+         console.error(error)
+      } finally {
+         findLastLive()
+         findLastUpcoming()
+         findLastFinished()
+      }
    }
 
    const findLastLive = (): boolean => {
@@ -88,16 +91,7 @@ export default function Home() {
 
    useEffect(() => {
       fetchData()
-      // fetchJson()
    }, [])
-
-   useEffect(() => {
-      console.log(lastVdos);
-      
-      findLastLive()
-      findLastUpcoming()
-      findLastFinished()
-   }, [lastVdos])
 
    useEffect(() => {
       if (live) setTargetTime(live.datetime ?? '')
@@ -118,13 +112,11 @@ export default function Home() {
             : dayjs.duration(dayjs(dayjs()).diff(targetTime))
          setTimeLeft(newDuration)
          dayjs()
-         // Clear the interval when the countdown is complete
          if (newDuration.asSeconds() <= 0) {
             clearInterval(timerId)
          }
       }, 1000)
 
-      // Cleanup the interval on component unmount
       return () => clearInterval(timerId)
    }, [targetTime])
 
