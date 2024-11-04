@@ -43,18 +43,15 @@ export default function Home() {
          const live = await axios.get(
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/LIVE/new'
          )
-         console.log(live.data.data);
-         setLastVdos((prev) => [...prev, live.data.data])
+         setLastVdos((prev) => [...prev, ...live.data.data])
          const uploaded = await axios.get(
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/UPLOADED/new'
          )
-         console.log(uploaded.data.data);
-         setLastVdos((prev) => [...prev, uploaded.data.data])
+         setLastVdos((prev) => [...prev, ...uploaded.data.data])
          const short = await axios.get(
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/SHORT/new'
          )
-         console.log(short.data.data);
-         setLastVdos((prev) => [...prev, short.data.data])
+         setLastVdos((prev) => [...prev, ...short.data.data])
       } catch (error) {}
    }
 
@@ -71,7 +68,7 @@ export default function Home() {
    const findLastUpcoming = (): boolean => {
       const lastUpcoming = lastVdos
          ?.filter((stream) => dayjs(stream.datetime) > dayjs())
-         .sort((a, b) => dayjs(b.datetime).diff(dayjs(a.datetime)))
+         .sort((a, b) => dayjs(a.datetime).diff(dayjs(b.datetime)))
 
       setUpcoming(lastUpcoming?.[0] as any)
 
