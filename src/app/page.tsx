@@ -43,15 +43,18 @@ export default function Home() {
          const live = await axios.get(
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/LIVE/new'
          )
-         setLastVdos((prev) => [...prev, live.data])
+         console.log(live);
+         setLastVdos((prev) => [...prev, live.data.data])
          const uploaded = await axios.get(
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/UPLOADED/new'
          )
-         setLastVdos((prev) => [...prev, uploaded.data])
+         console.log(uploaded);
+         setLastVdos((prev) => [...prev, uploaded.data.data])
          const short = await axios.get(
             'https://api.vtuberthaiinfo.com/video/talent/lunatrixch/SHORT/new'
          )
-         setLastVdos((prev) => [...prev, short.data])
+         console.log(short);
+         setLastVdos((prev) => [...prev, short.data.data])
       } catch (error) {}
    }
 
