@@ -169,7 +169,7 @@ export default function Home() {
                   }`}
                >
                   {dayjs(targetTime?.time) > dayjs() ||
-                  data.snippet.liveBroadcastContent === 'live' ? (
+                  data.snippet.liveBroadcastContent !== 'none' ? (
                      <Broadcast color='white' size={24} />
                   ) : (
                      'อัปโหลดเมื่อ '
