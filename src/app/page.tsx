@@ -226,9 +226,11 @@ export default function Home() {
                >
                   <p
                      hidden={!!live || !!upcoming || !!finished}
-                     className='absolute text-sm w-[120px] bottom-5 -left-[100px] -rotate-[30deg]'
+                     className='absolute text-sm text-center bottom-3 -left-[80px] -rotate-[30deg]'
                   >
-                     ดูคลิปเก่าไปก่อน
+                     ดูคลิปเก่า
+                     <br />
+                     ไปก่อน
                   </p>
                   <img
                      hidden={!!live || !!upcoming || !!finished}
@@ -271,7 +273,7 @@ export default function Home() {
                   <TwitchLogo size={32} weight='fill' />
                </a>
             </div>
-            <p className='text-center'>จัดทำโดยแอ้ขป.</p>
+            <p className='text-transparent'>จัดทำโดยแอ้ขป.</p>
          </footer>
       </div>
    )
