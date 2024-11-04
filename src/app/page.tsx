@@ -219,16 +219,16 @@ export default function Home() {
          </div>
          <footer className='flex flex-col gap-2 items-center p-2'>
             <p className='text-xl'>ช่องทางการติดตามลูน่า</p>
-            <div className='flex gap-3 items-center justify-center'>
+            <div className='flex gap-4 items-center justify-center'>
                <a
                   href='https://www.youtube.com/c/LunatrixCh?sub_confirmation=1'
                   target='_blank'
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer relative'
                >
-                  <p
+                  {/* <p
                      hidden={!!live || !!upcoming || !!finished}
-                     className='absolute text-sm text-center bottom-3 -left-[80px] -rotate-[30deg]'
+                     className='absolute text-sm text-center bottom-3 -left-[90px] -rotate-[30deg]'
                   >
                      ดูคลิปเก่า
                      <br />
@@ -238,8 +238,8 @@ export default function Home() {
                      hidden={!!live || !!upcoming || !!finished}
                      src='/img/live.webp'
                      alt='live'
-                     className='absolute -bottom-[42px] -left-16 scale-x-[-1] min-w-24'
-                  />
+                     className='absolute -bottom-[42px] -left-[75px] scale-x-[-1] min-w-24'
+                  /> */}
                   <YoutubeLogo size={32} weight='fill' />
                </a>
                <a
@@ -275,7 +275,18 @@ export default function Home() {
                   <TwitchLogo size={32} weight='fill' />
                </a>
             </div>
-            <p className='text-transparent'>จัดทำโดยแอ้ขป.</p>
+            <p className='text-center'>รูปลูน่ากับแอ้วาดโดยลูน่า</p>
+            <p className='text-center'>
+               {'เขียนเว็บโดยขป. API โดย '}
+               <a
+                  href='https://www.vtuberthaiinfo.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='hover:scale-[1.1] hover: cursor-pointer'
+               >
+                  VtuberThaiInfo.com
+               </a>
+            </p>
          </footer>
       </div>
    )
