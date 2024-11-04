@@ -233,7 +233,6 @@ export default function Home() {
                      <img src='/img/live.webp' alt='live' />
                      <p className='text-xl'>ไปดูดิ</p>
                   </div>
-                  <TweetButton />
                </>
             ) : !!upcoming ? (
                <>
@@ -256,7 +255,6 @@ export default function Home() {
                      <img src='/img/wait.webp' alt='wait' />
                      <p className='text-xl'>ไปรอดิ</p>
                   </div>
-                  <TweetButton />
                </>
             ) : finished ? (
                <>
@@ -273,7 +271,6 @@ export default function Home() {
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
                   </div>
-                  <TweetButton />
                </>
             ) : (
                <>
@@ -283,9 +280,9 @@ export default function Home() {
                      className='max-w-52'
                      alt='sad-jellyfish'
                   />
-                  <TweetButton />
                </>
             )}
+            <TweetButton />
          </div>
          <footer className='flex flex-col gap-2 items-center p-2'>
             <p className='text-xl'>ช่องทางการติดตามลูน่า</p>
