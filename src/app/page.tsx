@@ -61,7 +61,9 @@ export default function Home() {
 
    const getVideos = async () => {
       try {
-         const response = await axios.get('https://missyouluna-service.vercel.app/api/last-vdo')
+         const response = await axios.get(
+            'https://missyouluna-service.vercel.app/api/last-vdo'
+         )
          setResource(response.data.items)
       } catch (error: any) {}
    }
@@ -117,23 +119,35 @@ export default function Home() {
    }, [resource])
 
    useEffect(() => {
-      if (live) setTargetTime({type: 'live' , time: live.liveStreamingDetails.actualStartTime})
+      if (live)
+         setTargetTime({
+            type: 'live',
+            time: live.liveStreamingDetails.actualStartTime,
+         })
    }, [live])
 
    useEffect(() => {
       if (!live && upcoming)
-         setTargetTime({type:'upcoming' , time: upcoming?.liveStreamingDetails.scheduledStartTime})
+         setTargetTime({
+            type: 'upcoming',
+            time: upcoming?.liveStreamingDetails.scheduledStartTime,
+         })
    }, [upcoming])
 
    useEffect(() => {
-      if (!upcoming && finished) setTargetTime({type: 'none' , time: finished?.liveStreamingDetails.actualStartTime})
+      if (!upcoming && finished)
+         setTargetTime({
+            type: 'none',
+            time: finished?.liveStreamingDetails.actualStartTime,
+         })
    }, [finished])
 
    useEffect(() => {
       const timerId = setInterval(() => {
-         const newDuration = targetTime?.type === 'upcoming'
-            ? dayjs.duration(dayjs(targetTime?.time).diff(dayjs()))
-            : dayjs.duration(dayjs(dayjs()).diff(targetTime?.time))
+         const newDuration =
+            targetTime?.type === 'upcoming'
+               ? dayjs.duration(dayjs(targetTime?.time).diff(dayjs()))
+               : dayjs.duration(dayjs(dayjs()).diff(targetTime?.time))
          setTimeLeft(newDuration)
          dayjs()
          // Clear the interval when the countdown is complete
@@ -186,6 +200,20 @@ export default function Home() {
       )
    }
 
+   function TweetButton() {
+      return (
+         <a
+            className='flex gap-2 items-center text-xl rounded-full py-2 px-4 hover:scale-[1.1] bg-[#985175] text-[#FECFE7]'
+            href='https://x.com/intent/post?hashtags=Trixarium&text=คิดถึงลูน่าค้าบ'
+            target='_blank'
+            rel='noopener noreferrer'
+         >
+            บอกคิดถึงลูน่าผ่าน
+            <XLogo size={32} weight='duotone' />
+         </a>
+      )
+   }
+
    return (
       <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-[#985175]'>
          <div />
@@ -205,6 +233,7 @@ export default function Home() {
                      <img src='/img/live.webp' alt='live' />
                      <p className='text-xl'>ไปดูดิ</p>
                   </div>
+                  <TweetButton/>
                </>
             ) : !!upcoming ? (
                <>
@@ -227,6 +256,7 @@ export default function Home() {
                      <img src='/img/wait.webp' alt='wait' />
                      <p className='text-xl'>ไปรอดิ</p>
                   </div>
+                  <TweetButton/>
                </>
             ) : finished ? (
                <>
@@ -243,6 +273,7 @@ export default function Home() {
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
                   </div>
+                  <TweetButton/>
                </>
             ) : (
                <>
@@ -252,6 +283,7 @@ export default function Home() {
                      className='max-w-52'
                      alt='sad-jellyfish'
                   />
+                  <TweetButton/>
                </>
             )}
          </div>
@@ -276,7 +308,7 @@ export default function Home() {
                      alt='live'
                      className='absolute -bottom-[42px] -left-16 scale-x-[-1] min-w-24'
                   />
-                  <YoutubeLogo size={32} weight='fill' />
+                  <YoutubeLogo size={32} weight='duotone' />
                </a>
                <a
                   href='https://www.facebook.com/LTX022/'
@@ -284,7 +316,7 @@ export default function Home() {
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer'
                >
-                  <FacebookLogo size={32} weight='fill' />
+                  <FacebookLogo size={32} weight='duotone' />
                </a>
                <a
                   href='https://x.com/intent/follow?screen_name=LTX022'
@@ -292,7 +324,7 @@ export default function Home() {
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer'
                >
-                  <XLogo size={32} weight='fill' />
+                  <XLogo size={32} weight='duotone' />
                </a>
                <a
                   href='https://www.tiktok.com/@ltx022'
@@ -300,7 +332,7 @@ export default function Home() {
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer'
                >
-                  <TiktokLogo size={32} weight='fill' />
+                  <TiktokLogo size={32} weight='duotone' />
                </a>
                <a
                   href='https://www.twitch.tv/ltx022'
@@ -308,7 +340,7 @@ export default function Home() {
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer'
                >
-                  <TwitchLogo size={32} weight='fill' />
+                  <TwitchLogo size={32} weight='duotone' />
                </a>
             </div>
             <p
