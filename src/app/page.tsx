@@ -215,7 +215,7 @@ export default function Home() {
    }
 
    return (
-      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-[#985175]'>
+      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-[#985175] mobile:overflow-auto'>
          <div />
          <div className='flex flex-col gap-6 justify-center items-center w-full'>
             {!!live ? (
