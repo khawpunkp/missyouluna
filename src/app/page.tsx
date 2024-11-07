@@ -152,7 +152,8 @@ export default function Home() {
          dayjs()
          // Clear the interval when the countdown is complete
          if (newDuration.asSeconds() <= 0) {
-            window.open('https://www.youtube.com/watch?v=' + upcoming?.id)
+            if (upcoming?.id)
+               window.open('https://www.youtube.com/watch?v=' + upcoming?.id)
             clearInterval(timerId)
          }
       }, 1000)
