@@ -122,7 +122,9 @@ export default function Home() {
       if (live)
          setTargetTime({
             type: 'live',
-            time: live.liveStreamingDetails.actualStartTime,
+            time:
+               live.liveStreamingDetails.actualStartTime ??
+               dayjs().toISOString(),
          })
    }, [live])
 
@@ -130,7 +132,9 @@ export default function Home() {
       if (!live && upcoming)
          setTargetTime({
             type: 'upcoming',
-            time: upcoming?.liveStreamingDetails.scheduledStartTime,
+            time:
+               upcoming?.liveStreamingDetails.scheduledStartTime ??
+               dayjs().toISOString(),
          })
    }, [upcoming])
 
@@ -138,7 +142,9 @@ export default function Home() {
       if (!upcoming && finished)
          setTargetTime({
             type: 'none',
-            time: finished?.liveStreamingDetails.actualStartTime,
+            time:
+               finished?.liveStreamingDetails.actualStartTime ??
+               dayjs().toISOString(),
          })
    }, [finished])
 
@@ -154,7 +160,6 @@ export default function Home() {
          if (newDuration.asSeconds() <= 0) {
             if (upcoming?.id) {
                window.open('https://www.youtube.com/watch?v=' + upcoming?.id)
-               getVideos()
             }
             clearInterval(timerId)
          }
