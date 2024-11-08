@@ -42,10 +42,10 @@ type VideoResource = {
       }
    }
    liveStreamingDetails: {
-      actualStartTime: string
-      actualEndTime: string
-      scheduledStartTime: string
-      scheduledEndTime: string
+      actualStartTime?: string
+      actualEndTime?: string
+      scheduledStartTime?: string
+      scheduledEndTime?: string
    }
 }
 export default function Home() {
@@ -123,7 +123,7 @@ export default function Home() {
          setTargetTime({
             type: 'live',
             time:
-               live.liveStreamingDetails.actualStartTime ??
+               live.liveStreamingDetails?.actualStartTime ??
                dayjs().toISOString(),
          })
    }, [live])
@@ -133,7 +133,7 @@ export default function Home() {
          setTargetTime({
             type: 'upcoming',
             time:
-               upcoming?.liveStreamingDetails.scheduledStartTime ??
+               upcoming?.liveStreamingDetails?.scheduledStartTime ??
                dayjs().toISOString(),
          })
    }, [upcoming])
@@ -143,7 +143,7 @@ export default function Home() {
          setTargetTime({
             type: 'none',
             time:
-               finished?.liveStreamingDetails.actualStartTime ??
+               finished?.liveStreamingDetails?.actualStartTime ??
                dayjs().toISOString(),
          })
    }, [finished])
