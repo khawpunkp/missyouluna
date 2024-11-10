@@ -41,7 +41,7 @@ type VideoResource = {
          description: string
       }
    }
-   liveStreamingDetails: {
+   liveStreamingDetails?: {
       actualStartTime?: string
       actualEndTime?: string
       scheduledStartTime?: string
@@ -84,8 +84,8 @@ export default function Home() {
             (stream) => stream.snippet.liveBroadcastContent === 'upcoming'
          )
          .sort((a, b) =>
-            dayjs(a.liveStreamingDetails.scheduledStartTime).diff(
-               dayjs(b.liveStreamingDetails.scheduledStartTime)
+            dayjs(a.liveStreamingDetails?.scheduledStartTime).diff(
+               dayjs(b.liveStreamingDetails?.scheduledStartTime)
             )
          )
 
@@ -139,13 +139,15 @@ export default function Home() {
    }, [upcoming])
 
    useEffect(() => {
-      if (!upcoming && finished)
+      if (!upcoming && finished) {
+         const time = finished?.liveStreamingDetails
+            ? finished?.liveStreamingDetails.actualStartTime
+            : finished.snippet.publishedAt
          setTargetTime({
             type: 'none',
-            time:
-               finished?.liveStreamingDetails?.actualStartTime ??
-               dayjs().toISOString(),
+            time: time ?? dayjs().toISOString(),
          })
+      }
    }, [finished])
 
    useEffect(() => {
