@@ -268,15 +268,14 @@ export default function Home() {
                </>
             ) : finished ? (
                <>
-                  <p className='text-2xl'>บุคคลสูญหาย (นอน) พบเห็นล่าสุดที่</p>
-                  <VideoCard data={finished} />
+                  <p className='text-2xl'>บุคคลสูญหาย (นอน) พบเห็นล่าสุดเมื่อ</p>
                   <p className='text-2xl'>
-                     <span>{'เมื่อ '}</span>
                      <span className='font-semibold'>
                         {timeLeft?.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}
                      </span>
                      <span>{' ที่แล้ว'}</span>
                   </p>
+                  <VideoCard data={finished} />                  
                   <div className='flex flex-col items-center gap-1'>
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
