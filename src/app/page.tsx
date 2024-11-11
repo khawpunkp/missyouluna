@@ -164,6 +164,7 @@ export default function Home() {
                window.open('https://www.youtube.com/watch?v=' + upcoming?.id)
             }
             clearInterval(timerId)
+            getVideos()
          }
       }, 1000)
 
