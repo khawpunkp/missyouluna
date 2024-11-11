@@ -139,7 +139,7 @@ export default function Home() {
    }, [upcoming])
 
    useEffect(() => {
-      if (!upcoming && finished) {
+      if (!live && !upcoming && finished) {
          const time = finished?.liveStreamingDetails
             ? finished?.liveStreamingDetails.actualStartTime
             : finished.snippet.publishedAt
@@ -151,11 +151,11 @@ export default function Home() {
    }, [finished])
 
    useEffect(() => {
-      const timerId = setInterval(() => {
-         const newDuration =
-         dayjs(targetTime?.time).isAfter(dayjs())
-               ? dayjs.duration(dayjs(targetTime?.time).diff(dayjs()))
-               : dayjs.duration(dayjs(dayjs()).diff(targetTime?.time))
+      const timerId = setInterval(() => {console.log(targetTime?.time);
+      
+         const newDuration = dayjs(targetTime?.time).isAfter(dayjs())
+            ? dayjs.duration(dayjs(targetTime?.time).diff(dayjs()))
+            : dayjs.duration(dayjs(dayjs()).diff(targetTime?.time))
          setTimeLeft(newDuration)
          dayjs()
          // Clear the interval when the countdown is complete
@@ -269,14 +269,16 @@ export default function Home() {
                </>
             ) : finished ? (
                <>
-                  <p className='text-2xl'>บุคคลสูญหาย (นอน) พบเห็นล่าสุดเมื่อ</p>
+                  <p className='text-2xl'>
+                     บุคคลสูญหาย (นอน) พบเห็นล่าสุดเมื่อ
+                  </p>
                   <p className='text-2xl'>
                      <span className='font-semibold'>
                         {timeLeft?.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}
                      </span>
                      <span>{' ที่แล้ว'}</span>
                   </p>
-                  <VideoCard data={finished} />                  
+                  <VideoCard data={finished} />
                   <div className='flex flex-col items-center gap-1'>
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
