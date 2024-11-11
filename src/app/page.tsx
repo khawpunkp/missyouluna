@@ -153,7 +153,7 @@ export default function Home() {
    useEffect(() => {
       const timerId = setInterval(() => {
          const newDuration =
-            targetTime?.type === 'upcoming'
+         dayjs(targetTime?.time).isAfter(dayjs())
                ? dayjs.duration(dayjs(targetTime?.time).diff(dayjs()))
                : dayjs.duration(dayjs(dayjs()).diff(targetTime?.time))
          setTimeLeft(newDuration)
