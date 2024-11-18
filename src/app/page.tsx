@@ -206,7 +206,7 @@ export default function Home() {
                   )}
                   {data.snippet.liveBroadcastContent === 'live'
                      ? timeLeft?.format('HH:mm:ss')
-                     : dayjs(targetTime?.time).format('ddd ที่ DD MMMM เวลา HH:mm น.')}
+                     : dayjs(targetTime?.time).format('วันddd DD MMMM เวลา HH:mm น.')}
                </div>
             </div>
             <div className='flex flex-col gap-4 p-4 text-xl'>
