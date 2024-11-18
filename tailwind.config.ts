@@ -15,8 +15,8 @@ const config: Config = {
             desktop: { min: '1024px' },
          },
          colors: {
-            background: 'var(--background)',
-            foreground: 'var(--foreground)',
+            primary: '#985175',
+            secondary: '#FECFE7',
          },
       },
    },

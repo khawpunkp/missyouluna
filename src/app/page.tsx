@@ -219,7 +219,7 @@ export default function Home() {
    function TweetButton() {
       return (
          <a
-            className={`gap-2 items-center text-xl rounded-full py-2 px-4 hover:scale-[1.1] bg-[#985175] text-[#FECFE7] ${
+            className={`gap-2 items-center text-xl rounded-full py-2 px-4 hover:scale-[1.1] bg-primary text-secondary ${
                isLoading ? 'hidden' : 'flex'
             }`}
             href='https://twitter.com/intent/tweet?hashtags=Trixarium&related=twitterapi%2Ctwitter&text=คิดถึงลูน่าค้าบ'
@@ -233,7 +233,7 @@ export default function Home() {
    }
 
    return (
-      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-[#985175] mobile:overflow-auto'>
+      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
          <div />
          <div className='flex flex-col gap-6 justify-center items-center w-full'>
             {isLoading ? (
@@ -309,6 +309,7 @@ export default function Home() {
             <p className='text-xl'>ช่องทางการติดตามลูน่า</p>
             <div className='flex gap-3 items-center justify-center'>
                <a
+                  title='yt'
                   href='https://www.youtube.com/c/LunatrixCh?sub_confirmation=1'
                   target='_blank'
                   rel='noopener noreferrer'
