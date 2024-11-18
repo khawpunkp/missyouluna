@@ -206,7 +206,7 @@ export default function Home() {
                   )}
                   {data.snippet.liveBroadcastContent === 'live'
                      ? timeLeft?.format('HH:mm:ss')
-                     : dayjs(targetTime?.time).format('DD MMMM เวลา HH:mm น.')}
+                     : dayjs(targetTime?.time).format('ddd ที่ DD MMMM เวลา HH:mm น.')}
                </div>
             </div>
             <div className='flex flex-col gap-4 p-4 text-xl'>
@@ -354,14 +354,14 @@ export default function Home() {
                >
                   <TiktokLogo size={32} weight='duotone' />
                </a>
-               <a
+               {/* <a
                   href='https://www.twitch.tv/ltx022'
                   target='_blank'
                   rel='noopener noreferrer'
                   className='hover:scale-[1.1] hover: cursor-pointer'
                >
                   <TwitchLogo size={32} weight='duotone' />
-               </a>
+               </a> */}
             </div>
             <p
                className='text-transparent'
