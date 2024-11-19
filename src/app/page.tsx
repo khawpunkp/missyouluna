@@ -206,7 +206,9 @@ export default function Home() {
                   )}
                   {data.snippet.liveBroadcastContent === 'live'
                      ? timeLeft?.format('HH:mm:ss')
-                     : dayjs(targetTime?.time).format('วันddd DD MMMM เวลา HH:mm น.')}
+                     : dayjs(targetTime?.time).format(
+                          'วันddd DD MMMM เวลา HH:mm น.'
+                       )}
                </div>
             </div>
             <div className='flex flex-col gap-4 p-4 text-xl'>
@@ -237,7 +239,14 @@ export default function Home() {
          <div />
          <div className='flex flex-col gap-6 justify-center items-center w-full'>
             {isLoading ? (
-               <img src={'/img/sad-jellyfish.png'} alt='sad-jellyfish' className='animate-bounce w-16'/>
+               <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
+                  <img
+                     src={'/img/sad-jellyfish.png'}
+                     alt='sad-jellyfish'
+                     className='w-16'
+                  />
+                  sad jellyfish
+               </div>
             ) : !!live ? (
                <>
                   <p className='text-2xl'>ลูน่าไลฟ์อยู่ที่</p>
