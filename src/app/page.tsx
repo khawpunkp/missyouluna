@@ -179,10 +179,10 @@ export default function Home() {
 
    function VideoCard({
       data,
-      isLive = true,
+      isUpload = false,
    }: {
       data: VideoResource
-      isLive?: boolean
+      isUpload?: boolean
    }) {
       return (
          <div
@@ -199,7 +199,7 @@ export default function Home() {
                />
                <div
                   className={`absolute bottom-2 right-4 gap-2 text-white rounded-md p-2 ${
-                     isLive ? 'flex' : 'hidden'
+                     isUpload ? 'hidden' : 'flex'
                   } ${
                      data.snippet.liveBroadcastContent === 'live'
                         ? 'bg-[#FF0000cc]'
@@ -221,13 +221,14 @@ export default function Home() {
             </div>
             <div className='flex flex-col gap-4 p-4 text-xl'>
                {data.snippet.title}
-               <p>
-                  {!isLive &&
-                     'อัปโหลดเมื่อ ' +
+               {isUpload && (
+                  <p>
+                     {'อัปโหลดเมื่อ ' +
                         dayjs(targetTime?.time).format(
                            'วันddd DD MMMM เวลา HH:mm น.'
                         )}
-               </p>
+                  </p>
+               )}
             </div>
          </div>
       )
@@ -311,7 +312,7 @@ export default function Home() {
                      </span>
                      <span>{' ที่แล้ว'}</span>
                   </p>
-                  <VideoCard data={finished} />
+                  <VideoCard data={finished} isUpload/>
                   <div className='flex flex-col items-center gap-1'>
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
