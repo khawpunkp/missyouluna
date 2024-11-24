@@ -244,7 +244,7 @@ export default function Home() {
    }
 
    return (
-      <div className='min-h-screen overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
+      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
          <div className='flex flex-col gap-6 justify-center items-center w-full h-full p-6'>
             {isLoading ? (
                <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
