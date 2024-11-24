@@ -189,7 +189,7 @@ export default function Home() {
             onClick={() =>
                window.open('https://www.youtube.com/watch?v=' + data.id)
             }
-            className='flex flex-col hover:scale-[1.02] hover: cursor-pointer rounded-2xl bg-white w-[30%] mobile:w-[80%]'
+            className='flex flex-col hover:scale-[1.02] hover: cursor-pointer rounded-2xl bg-white w-[25%] mobile:w-[90%]'
          >
             <div className='w-full h-fit p-2 pb-0 relative'>
                <img
@@ -206,27 +206,20 @@ export default function Home() {
                         : 'bg-[#000000cc]'
                   }`}
                >
-                  {dayjs(targetTime?.time) > dayjs() ||
-                  data.snippet.liveBroadcastContent !== 'none' ? (
-                     <Broadcast color='white' size={24} />
-                  ) : (
-                     'อัปโหลดเมื่อ '
-                  )}
+                  {<Broadcast color='white' size={24} />}
                   {data.snippet.liveBroadcastContent === 'live'
                      ? timeLeft?.format('HH:mm:ss')
                      : dayjs(targetTime?.time).format(
-                          'วันddd DD MMMM เวลา HH:mm น.'
+                          'ddd DD MMM เวลา HH:mm น.'
                        )}
                </div>
             </div>
-            <div className='flex flex-col gap-2 p-4'>
+            <div className='flex flex-col p-4'>
                <p className='text-xl'>{data.snippet.title}</p>
                {isUpload && (
                   <p>
                      {'อัปโหลดเมื่อ ' +
-                        dayjs(targetTime?.time).format(
-                           'วันddd DD MMMM เวลา HH:mm น.'
-                        )}
+                        dayjs(targetTime?.time).format('DD MMM เวลา HH:mm น.')}
                   </p>
                )}
             </div>
@@ -251,9 +244,8 @@ export default function Home() {
    }
 
    return (
-      <div className='h-screen overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
-         <div />
-         <div className='flex flex-col gap-6 justify-center items-center w-full'>
+      <div className='min-h-screen overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
+         <div className='flex flex-col gap-6 justify-center items-center w-full h-full p-6'>
             {isLoading ? (
                <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
                   <img
@@ -265,7 +257,7 @@ export default function Home() {
                </div>
             ) : !!live ? (
                <>
-                  <p className='text-2xl'>ลูน่าไลฟ์อยู่ที่</p>
+                  <p className='text-2xl mobile:text-xl'>ลูน่าไลฟ์อยู่ที่</p>
                   <VideoCard data={live} />
                   <div
                      className='flex flex-col items-center gap-1 hover:cursor-pointer'
@@ -281,9 +273,9 @@ export default function Home() {
                </>
             ) : !!upcoming ? (
                <>
-                  <p className='text-2xl'>แล้วลูน่าจะกลับมา</p>
+                  <p className='text-2xl mobile:text-xl'>แล้วลูน่าจะกลับมา</p>
                   <VideoCard data={upcoming} />
-                  <p className='text-2xl'>
+                  <p className='text-2xl mobile:text-xl'>
                      <span>{'ในอีก '}</span>
                      <span className='font-semibold'>
                         {timeLeft?.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}
@@ -303,10 +295,10 @@ export default function Home() {
                </>
             ) : finished ? (
                <>
-                  <p className='text-2xl'>
+                  <p className='text-2xl mobile:text-xl'>
                      บุคคลสูญหาย (นอน) พบเห็นล่าสุดเมื่อ
                   </p>
-                  <p className='text-2xl'>
+                  <p className='text-2xl mobile:text-xl'>
                      <span className='font-semibold'>
                         {timeLeft?.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}
                      </span>
