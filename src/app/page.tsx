@@ -177,7 +177,13 @@ export default function Home() {
       return () => clearInterval(timerId)
    }, [targetTime])
 
-   function VideoCard({ data }: { data: VideoResource }) {
+   function VideoCard({
+      data,
+      isLive = true,
+   }: {
+      data: VideoResource
+      isLive?: boolean
+   }) {
       return (
          <div
             onClick={() =>
@@ -192,7 +198,9 @@ export default function Home() {
                   className='aspect-video w-full rounded-xl object-cover border'
                />
                <div
-                  className={`absolute bottom-2 right-4 flex gap-2 text-white rounded-md p-2 rounded- ${
+                  className={`absolute bottom-2 right-4 gap-2 text-white rounded-md p-2 ${
+                     isLive ? 'flex' : 'hidden'
+                  } ${
                      data.snippet.liveBroadcastContent === 'live'
                         ? 'bg-[#FF0000cc]'
                         : 'bg-[#000000cc]'
@@ -213,6 +221,13 @@ export default function Home() {
             </div>
             <div className='flex flex-col gap-4 p-4 text-xl'>
                {data.snippet.title}
+               <p>
+                  {!isLive &&
+                     'อัปโหลดเมื่อ ' +
+                        dayjs(targetTime?.time).format(
+                           'วันddd DD MMMM เวลา HH:mm น.'
+                        )}
+               </p>
             </div>
          </div>
       )
