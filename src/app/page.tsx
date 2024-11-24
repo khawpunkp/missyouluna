@@ -219,8 +219,8 @@ export default function Home() {
                        )}
                </div>
             </div>
-            <div className='flex flex-col gap-4 p-4 text-xl'>
-               {data.snippet.title}
+            <div className='flex flex-col gap-2 p-4'>
+               <p className='text-xl'>{data.snippet.title}</p>
                {isUpload && (
                   <p>
                      {'อัปโหลดเมื่อ ' +
@@ -312,7 +312,7 @@ export default function Home() {
                      </span>
                      <span>{' ที่แล้ว'}</span>
                   </p>
-                  <VideoCard data={finished} isUpload/>
+                  <VideoCard data={finished} isUpload />
                   <div className='flex flex-col items-center gap-1'>
                      <img src='/img/finished.webp' alt='missing' />
                      <p className='text-xl'>#ลูน่าไปไหน</p>
