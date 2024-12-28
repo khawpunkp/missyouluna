@@ -107,7 +107,7 @@ export default function Home() {
          ?.filter(
             (stream) =>
                dayjs(stream.snippet.publishedAt) < dayjs() &&
-               stream.snippet.liveBroadcastContent === 'none',
+               stream.snippet.liveBroadcastContent === 'none' && !stream.isCollab,
          )
          .sort((a, b) =>
             dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt)),
