@@ -7,11 +7,11 @@ import {
    Broadcast,
    FacebookLogo,
    TiktokLogo,
-   TwitchLogo,
    XLogo,
    YoutubeLogo,
 } from '@phosphor-icons/react'
 
+import collab from '../../public/collab.json'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 dayjs.locale('th')
@@ -47,6 +47,7 @@ type VideoResource = {
       scheduledStartTime?: string
       scheduledEndTime?: string
    }
+   isCollab?: boolean
 }
 export default function Home() {
    const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -63,9 +64,12 @@ export default function Home() {
    const getVideos = async () => {
       try {
          const response = await axios.get(
-            'https://missyouluna-service.vercel.app/api/last-vdo'
+            'https://missyouluna-service.vercel.app/api/last-vdo',
          )
-         setResource(response.data.items)
+         setResource([
+            ...response.data.items,
+            ...collab.map((c) => ({ ...c, isCollab: true })),
+         ])
       } catch (error: any) {
       } finally {
          setIsLoading(false)
@@ -74,7 +78,7 @@ export default function Home() {
 
    const findLastLive = (): boolean => {
       const lastLive = resource?.filter(
-         (stream) => stream.snippet.liveBroadcastContent === 'live'
+         (stream) => stream.snippet.liveBroadcastContent === 'live',
       )
 
       setLive(lastLive?.[0] as any)
@@ -85,12 +89,12 @@ export default function Home() {
    const findLastUpcoming = (): boolean => {
       const lastUpcoming = resource
          ?.filter(
-            (stream) => stream.snippet.liveBroadcastContent === 'upcoming'
+            (stream) => stream.snippet.liveBroadcastContent === 'upcoming',
          )
          .sort((a, b) =>
             dayjs(a.liveStreamingDetails?.scheduledStartTime).diff(
-               dayjs(b.liveStreamingDetails?.scheduledStartTime)
-            )
+               dayjs(b.liveStreamingDetails?.scheduledStartTime),
+            ),
          )
 
       setUpcoming(lastUpcoming?.[0] as any)
@@ -103,10 +107,10 @@ export default function Home() {
          ?.filter(
             (stream) =>
                dayjs(stream.snippet.publishedAt) < dayjs() &&
-               stream.snippet.liveBroadcastContent === 'none'
+               stream.snippet.liveBroadcastContent === 'none',
          )
          .sort((a, b) =>
-            dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt))
+            dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt)),
          )
 
       setFinished(lastFinished?.[0] as any)
@@ -210,7 +214,7 @@ export default function Home() {
                   {data.snippet.liveBroadcastContent === 'live'
                      ? timeLeft?.format('HH:mm:ss')
                      : dayjs(targetTime?.time).format(
-                          'ddd DD MMM เวลา HH:mm น.'
+                          'ddd DD MMM เวลา HH:mm น.',
                        )}
                </div>
             </div>
@@ -257,13 +261,17 @@ export default function Home() {
                </div>
             ) : !!live ? (
                <>
-                  <p className='text-2xl mobile:text-xl'>ลูน่าไลฟ์อยู่ที่</p>
+                  <p className='text-2xl mobile:text-xl'>
+                     {!live.isCollab
+                        ? 'ลูน่าไลฟ์อยู่ที่'
+                        : 'ลูน่ากำลังไปโผล่ที่'}
+                  </p>
                   <VideoCard data={live} />
                   <div
                      className='flex flex-col items-center gap-1 hover:cursor-pointer'
                      onClick={() =>
                         window.open(
-                           'https://www.youtube.com/watch?v=' + live.id
+                           'https://www.youtube.com/watch?v=' + live.id,
                         )
                      }
                   >
@@ -273,7 +281,11 @@ export default function Home() {
                </>
             ) : !!upcoming ? (
                <>
-                  <p className='text-2xl mobile:text-xl'>แล้วลูน่าจะกลับมา</p>
+                  <p className='text-2xl mobile:text-xl'>
+                     {!upcoming.isCollab
+                        ? 'แล้วลูน่าจะกลับมา'
+                        : 'แล้วลูน่าจะไปโผล่ที่'}
+                  </p>
                   <VideoCard data={upcoming} />
                   <p className='text-2xl mobile:text-xl'>
                      <span>{'ในอีก '}</span>
@@ -285,7 +297,7 @@ export default function Home() {
                      className='flex flex-col items-center gap-1 hover:cursor-pointer'
                      onClick={() =>
                         window.open(
-                           'https://www.youtube.com/watch?v=' + upcoming.id
+                           'https://www.youtube.com/watch?v=' + upcoming.id,
                         )
                      }
                   >
@@ -296,7 +308,7 @@ export default function Home() {
             ) : finished ? (
                <>
                   <p className='text-2xl mobile:text-xl'>
-                     บุคคลสูญหาย (นอน) พบเห็นล่าสุดเมื่อ
+                     ทำไรอยู่ไม่รู้ แต่พบเห็นล่าสุดเมื่อ
                   </p>
                   <p className='text-2xl mobile:text-xl'>
                      <span className='font-semibold'>
