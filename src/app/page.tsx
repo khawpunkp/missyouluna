@@ -11,7 +11,6 @@ import {
    YoutubeLogo,
 } from '@phosphor-icons/react'
 
-import collab from '../../public/collab.json'
 import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 dayjs.locale('th')
@@ -47,7 +46,6 @@ type VideoResource = {
       scheduledStartTime?: string
       scheduledEndTime?: string
    }
-   isCollab?: boolean
 }
 export default function Home() {
    const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -66,10 +64,7 @@ export default function Home() {
          const response = await axios.get(
             'https://missyouluna-service.vercel.app/api/last-vdo',
          )
-         setResource([
-            ...response.data.items,
-            ...collab.map((c) => ({ ...c, isCollab: true })),
-         ])
+         setResource(response.data.items)
       } catch (error: any) {
       } finally {
          setIsLoading(false)
@@ -107,7 +102,7 @@ export default function Home() {
          ?.filter(
             (stream) =>
                dayjs(stream.snippet.publishedAt) < dayjs() &&
-               stream.snippet.liveBroadcastContent === 'none' && !stream.isCollab,
+               stream.snippet.liveBroadcastContent === 'none'
          )
          .sort((a, b) =>
             dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt)),
@@ -262,9 +257,7 @@ export default function Home() {
             ) : !!live ? (
                <>
                   <p className='text-2xl mobile:text-xl'>
-                     {!live.isCollab
-                        ? 'ลูน่าไลฟ์อยู่ที่'
-                        : 'ลูน่ากำลังไปโผล่ที่'}
+                     {'ลูน่าไลฟ์อยู่ที่'}
                   </p>
                   <VideoCard data={live} />
                   <div
@@ -282,9 +275,7 @@ export default function Home() {
             ) : !!upcoming ? (
                <>
                   <p className='text-2xl mobile:text-xl'>
-                     {!upcoming.isCollab
-                        ? 'แล้วลูน่าจะกลับมา'
-                        : 'แล้วลูน่าจะไปโผล่ที่'}
+                     {'แล้วลูน่าจะกลับมา'}
                   </p>
                   <VideoCard data={upcoming} />
                   <p className='text-2xl mobile:text-xl'>
