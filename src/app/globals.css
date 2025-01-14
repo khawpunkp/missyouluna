@@ -14,3 +14,7 @@ body {
    background-color: white;
    font-family: 'Itim', cursive;
 }
+
+.card-shadow {
+   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
