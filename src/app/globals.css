@@ -13,6 +13,7 @@
 body {
    background-color: white;
    font-family: 'Itim', cursive;
+   background-image: url(/img/bg.gif);
 }
 
 .card-shadow {
