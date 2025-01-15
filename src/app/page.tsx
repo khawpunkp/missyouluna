@@ -157,7 +157,7 @@ export default function Home() {
             onClick={() =>
                window.open(`https://www.youtube.com/watch?v=${data.id}`)
             }
-            className='flex flex-col hover:cursor-pointer rounded-2xl bg-white w-[25%] mobile:w-[90%] hover:scale-[1.03] transition-all duration-300 '
+            className='flex flex-col hover:cursor-pointer rounded-2xl bg-white max-w-[500px] w-full hover:scale-[1.03] transition-all duration-300 '
          >
             <div className='w-full h-fit p-2 pb-0 relative'>
                <img
@@ -350,7 +350,7 @@ export default function Home() {
 
    return (
       <div className='h-[calc(100vh-56px)] min-h-[calc(100vh-56px)] overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
-         <div className='flex flex-col gap-4 justify-center items-center w-full h-full p-6'>
+         <div className='flex flex-col gap-4 justify-center items-center w-full h-full mobile:px-4'>
             {isLoading ? (
                <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
                   <img
