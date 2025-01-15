@@ -329,9 +329,9 @@ export default function Home() {
          },
       ]
       return (
-         <footer className='flex flex-col gap-2 mobile:gap-1 items-center p-2'>
+         <footer className='flex flex-col gap-2 mobile:gap-1 items-center mb-4'>
             <p className='text-xl mobile:text-base'>ช่องทางการติดตามลูน่า</p>
-            <div className='flex gap-3 mobile:gap-2 items-center justify-center text-[32px] mobile:text-2xl'>
+            <div className='flex gap-3 mobile:gap-2 items-center justify-center text-[32px]'>
                {social.map((s, i) => (
                   <a
                      key={i}

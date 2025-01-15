@@ -256,10 +256,10 @@ export default function page({}: Props) {
             <Link className='text-xl px-4 py-2 rounded-full bg-white' href={'/'}>กลับไปหน้าก่อน</Link>
          </div>
          <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
-         <div className='flex flex-wrap gap-2 mb-6 mobile:w-[90vw] max-w-[1320px] text-xl mobile:text-xs items-center justify-center'>
+         <div className='flex flex-wrap gap-2 mb-6 w-full mobile:max-w-[90vw] max-w-[1000px] text-xl mobile:text-xs items-center justify-center'>
             <button
                onClick={() => setFilter('')}
-               className={`mobile:h-8 mobile:w-[28vw] w-[14vw] px-4 py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
+               className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
                   filter === ''
                      ? 'bg-primary  border-white text-white'
                      : 'bg-white  border-primary'
@@ -272,7 +272,7 @@ export default function page({}: Props) {
                <button
                   key={index}
                   onClick={() => setFilter(r.code)}
-                  className={`mobile:h-8 mobile:w-[28vw] w-[14vw] px-4 py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
+                  className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
                      filter === r.code
                         ? 'bg-primary  border-white text-white'
                         : 'bg-white  border-primary'
