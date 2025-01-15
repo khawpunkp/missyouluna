@@ -264,7 +264,7 @@ export default function page({}: Props) {
          ref={containerRef}
          className='relative w-full flex flex-col items-center text-primary p-6 mobile:px-3 mobile:pb-3'
       >
-         {/* {!isClose && (
+         {!isClose && (
             <div className='fixed top-0 left-0 h-screen w-screen bg-black/50 flex flex-col gap-4 items-center justify-center'>
                <p className='text-9xl mobile:text-6xl text-white'>DEMO KUB</p>
                <button
@@ -274,7 +274,7 @@ export default function page({}: Props) {
                   ปิด
                </button>
             </div>
-         )} */}
+         )}
          <button
             type='button'
             title='scroll'
