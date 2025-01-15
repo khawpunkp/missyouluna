@@ -1,7 +1,8 @@
 'use client'
 
+import { CaretUp } from '@phosphor-icons/react'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 type Props = {}
 
@@ -249,12 +250,39 @@ export default function page({}: Props) {
       },
    ]
 
+   const [isClose, setIsClose] = useState(false)
+
+   const scrollToTop = () => {
+      console.log('c')
+
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+   }
+   const containerRef = useRef<HTMLDivElement>(null)
+
    return (
-      <div className='relative flex flex-col items-center text-primary p-6'>
-         <div className='fixed top-0 h-full w-full bg-black/50 flex flex-col gap-4 items-center justify-center'>
-            <p className='text-9xl mobile:text-6xl text-white'>DEMO KUB</p>
-            <Link className='text-xl px-4 py-2 rounded-full bg-white' href={'/'}>กลับไปหน้าก่อน</Link>
-         </div>
+      <div
+         ref={containerRef}
+         className='relative w-full flex flex-col items-center text-primary p-6 mobile:px-3 mobile:pb-3'
+      >
+         {/* {!isClose && (
+            <div className='fixed top-0 left-0 h-screen w-screen bg-black/50 flex flex-col gap-4 items-center justify-center'>
+               <p className='text-9xl mobile:text-6xl text-white'>DEMO KUB</p>
+               <button
+                  className='text-xl px-4 py-2 rounded-full bg-white'
+                  onClick={() => setIsClose(true)}
+               >
+                  ปิด
+               </button>
+            </div>
+         )} */}
+         <button
+            type='button'
+            title='scroll'
+            className='fixed bottom-4 right-4 p-2 rounded-full bg-primary/50 text-white'
+            onClick={() => scrollToTop()}
+         >
+            <CaretUp size={24} weight='fill' />
+         </button>
          <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
          <div className='flex flex-wrap gap-2 mb-6 w-full mobile:max-w-[90vw] max-w-[1000px] text-xl mobile:text-xs items-center justify-center'>
             <button

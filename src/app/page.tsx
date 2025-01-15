@@ -349,7 +349,7 @@ export default function Home() {
    }
 
    return (
-      <div className='h-[calc(100vh-56px)] min-h-[calc(100vh-56px)] overflow-hidden flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
+      <div className='overflow-hidden w-full flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full mobile:px-4'>
             {isLoading ? (
                <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>

@@ -14,9 +14,28 @@ body {
    background-color: white;
    font-family: 'Itim', cursive;
    background-image: url(/img/bg.gif);
-   background-size: 100vw;
+   background-size: 25vw;
 }
+
+@media only screen and (max-width: 768px) {
+   body {
+      background-size: 100vw;
+   }
+ }
 
 .card-shadow {
    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+*::-webkit-scrollbar {
+   width: 10px;
+}
+*::-webkit-scrollbar-track {
+   background-color: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+   border-radius: 8px;
+   background-color: #985175;
+   border: 2px solid #ffffff;
 }
