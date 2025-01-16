@@ -16,6 +16,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 dayjs.locale('th')
 import duration, { Duration } from 'dayjs/plugin/duration'
+import { useRouter } from 'next/navigation'
 dayjs.extend(duration)
 
 type VideoResource = {
@@ -63,6 +64,7 @@ export default function Home() {
          setIsLoading(false)
       }
    }
+   const router = useRouter()
 
    const live = useMemo(
       () =>
@@ -122,18 +124,33 @@ export default function Home() {
       }
    }, [finished])
 
-   function TimerComponent({ isLiveTimer }: { isLiveTimer?: boolean }) {
+   function TimerComponent({
+      isCountdown,
+      isLiveTimer,
+   }: {
+      isCountdown?: boolean
+      isLiveTimer?: boolean
+   }) {
       const [timeLeft, setTimeLeft] = useState<Duration>()
 
       useEffect(() => {
          if (!targetTime) return
          const interval = setInterval(() => {
             const now = dayjs()
-            const newDuration = dayjs(targetTime).isAfter(now)
-               ? dayjs.duration(dayjs(targetTime).diff(now))
-               : dayjs.duration(now.diff(targetTime))
-            setTimeLeft(newDuration)
-            if (newDuration.asSeconds() <= 0) clearInterval(interval)
+            const target = dayjs(targetTime)
+            const diff = isCountdown ? target.diff(now) : now.diff(target)
+            const newDuration = dayjs.duration(diff)
+
+            if (diff <= 0) {
+               clearInterval(interval)
+               setTimeLeft(dayjs.duration(0))
+               // if (upcoming?.id) {
+               //    const path = 'https://www.youtube.com/watch?v=' + upcoming?.id
+               //    router.push(path)
+               // }
+            } else {
+               setTimeLeft(newDuration)
+            }
          }, 1000)
 
          return () => clearInterval(interval)
@@ -233,7 +250,7 @@ export default function Home() {
                <p className='text-2xl mobile:text-xl'>
                   <span>{'ในอีก '}</span>
                   <span className='font-semibold'>
-                     <TimerComponent />
+                     <TimerComponent isCountdown />
                   </span>
                </p>
                <div
@@ -370,7 +387,7 @@ export default function Home() {
                </>
             )}
          </div>
-         <FooterComponent/>
+         <FooterComponent />
       </div>
    )
 }
