@@ -5,6 +5,7 @@ import axios from 'axios'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
    Broadcast,
+   DiscordLogo,
    FacebookLogo,
    ShoppingBag,
    TiktokLogo,
@@ -341,12 +342,16 @@ export default function Home() {
             logo: <TiktokLogo weight='duotone' />,
          },
          {
+            href: 'https://discord.com/invite/ltx022',
+            logo: <DiscordLogo weight='duotone' />,
+         },
+         {
             href: 'https://shop.line.me/@ltx022',
             logo: <ShoppingBag weight='duotone' />,
          },
       ]
       return (
-         <footer className='flex flex-col gap-2 mobile:gap-1 items-center mb-4'>
+         <footer className='flex flex-col gap-2 mobile:gap-1 items-center'>
             <p className='text-xl mobile:text-base'>ช่องทางการติดตามลูน่า</p>
             <div className='flex gap-3 mobile:gap-2 items-center justify-center text-[32px]'>
                {social.map((s, i) => (
@@ -366,8 +371,8 @@ export default function Home() {
    }
 
    return (
-      <div className='overflow-hidden w-full flex flex-col justify-between items-center text-primary mobile:overflow-auto'>
-         <div className='flex flex-col gap-4 justify-center items-center w-full h-full mobile:px-4'>
+      <div className='overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
+         <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
             {isLoading ? (
                <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
                   <img
