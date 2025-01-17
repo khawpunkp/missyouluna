@@ -30,10 +30,10 @@ export default function page({}: Props) {
          <button
             type='button'
             title='scroll'
-            className='fixed bottom-4 right-4 p-2 rounded-full bg-primary/50 text-white'
+            className='fixed bottom-6 right-6 p-[18px] mobile:p-2 text-4xl mobile:text-2xl rounded-full bg-primary/50 text-white z-50'
             onClick={() => scrollToTop()}
          >
-            <CaretUp size={24} weight='fill' />
+            <CaretUp weight='fill' />
          </button>
 
          <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
@@ -60,7 +60,7 @@ export default function page({}: Props) {
                         }`}
                      >
                         <span className='mobile:hidden'>{`A - `}</span>
-                        <span>{'Animal (All)'}</span>
+                        <span>{'Animal'}</span>
                      </button>
                   )}
                   {rare.map((r, index) => (
@@ -91,8 +91,8 @@ export default function page({}: Props) {
                            <div className='grid grid-cols-5 gap-5 mobile:grid-cols-3 mobile:gap-2'>
                               {r.Card?.map((c, index) => (
                                  <img
-                                    key={index}
                                     alt=''
+                                    key={index}
                                     src={c.imgSrc}
                                     className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300 '
                                  />

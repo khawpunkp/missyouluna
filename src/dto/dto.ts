@@ -33,5 +33,5 @@ export type RarityResourceDto = {
    id: number
    code: string
    title: string
-   Card: { runningNumber: number; imgSrc: string }[]
+   Card: { id: number; runningNumber: number; imgSrc: string }[]
 }
