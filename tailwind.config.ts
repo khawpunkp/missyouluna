@@ -18,6 +18,16 @@ const config: Config = {
             primary: '#985175',
             secondary: '#FECFE7',
          },
+         animation: {
+            'reverse-spin': 'reverse-spin 0.3s linear infinite',
+         },
+         keyframes: {
+            'reverse-spin': {
+               from: {
+                  transform: 'rotate(360deg)',
+               },
+            },
+         },
       },
    },
    plugins: [],

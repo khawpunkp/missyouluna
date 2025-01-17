@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
    Broadcast,
    DiscordLogo,
@@ -17,55 +17,23 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/th'
 dayjs.locale('th')
 import duration, { Duration } from 'dayjs/plugin/duration'
-import { useRouter } from 'next/navigation'
+import { VideoResourceDto } from '@/dto/dto'
+import { useQuery } from '@tanstack/react-query'
+import { getVideos } from '@/api/api'
 dayjs.extend(duration)
 
-type VideoResource = {
-   kind: 'youtube#video'
-   id: string
-   snippet: {
-      publishedAt: string
-      channelId: string
-      title: string
-      description: string
-      thumbnails: {
-         maxres: {
-            url: string
-            width: number
-            height: number
-         }
-      }
-      channelTitle: string
-      categoryId: string
-      liveBroadcastContent: 'live' | 'none' | 'upcoming'
-      localized: {
-         title: string
-         description: string
-      }
-   }
-   liveStreamingDetails?: {
-      actualStartTime?: string
-      actualEndTime?: string
-      scheduledStartTime?: string
-      scheduledEndTime?: string
-   }
-}
 export default function Home() {
-   const [isLoading, setIsLoading] = useState<boolean>(true)
-   const [resource, setResource] = useState<VideoResource[]>([])
    const [targetTime, setTargetTime] = useState<string>()
-   const getVideos = async () => {
-      try {
-         const response = await axios.get(
-            'https://missyouluna-service.vercel.app/api/last-vdo',
-         )
-         setResource(response.data.items)
-      } catch (error: any) {
-      } finally {
-         setIsLoading(false)
-      }
-   }
-   const router = useRouter()
+
+   const { data: resource, isLoading } = useQuery({
+      queryFn: async () => {
+         const response = await getVideos()
+
+         const data: VideoResourceDto[] = response.data.items
+         return data
+      },
+      queryKey: ['video'],
+   })
 
    const live = useMemo(
       () =>
@@ -145,10 +113,6 @@ export default function Home() {
             if (diff <= 0) {
                clearInterval(interval)
                setTimeLeft(dayjs.duration(0))
-               // if (upcoming?.id) {
-               //    const path = 'https://www.youtube.com/watch?v=' + upcoming?.id
-               //    router.push(path)
-               // }
             } else {
                setTimeLeft(newDuration)
             }
@@ -167,7 +131,7 @@ export default function Home() {
       data,
       isUpload = false,
    }: {
-      data: VideoResource
+      data: VideoResourceDto
       isUpload?: boolean
    }) {
       return (
@@ -294,7 +258,7 @@ export default function Home() {
    }
 
    function NotFoundComponent() {
-      if (!isLoading && resource.length === 0)
+      if (!isLoading && resource?.length === 0)
          return (
             <>
                <p className='text-2xl'>เว็บพัง</p>
