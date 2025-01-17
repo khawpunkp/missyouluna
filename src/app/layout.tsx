@@ -2,7 +2,7 @@ import Link from 'next/link'
 import './globals.css'
 import { Metadata } from 'next'
 import ReactQueryProvider from '@/provider/reactQueryProvider'
-import Navbar from '@/component/navbar'
+import Navbar from '@/components/navbar'
 
 export const metadata: Metadata = {
    title: 'คิดถึงลูน่า',

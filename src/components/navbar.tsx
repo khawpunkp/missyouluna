@@ -1,6 +1,5 @@
 'use client'
 
-import { List } from '@phosphor-icons/react'
 import Link from 'next/link'
 import React from 'react'
 
