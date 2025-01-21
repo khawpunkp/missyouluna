@@ -69,7 +69,7 @@ export default function Home() {
                   className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
                >
                   <ShoppingCartSimple size={24} weight='fill' />
-                  <p className='text-2xl'>LINE Shop</p>
+                  <p className='text-2xl mobile:text-xl'>LINE Shop</p>
                </a>
                <a
                   href={'https://tipme.in.th/lunatrix'}
@@ -78,7 +78,7 @@ export default function Home() {
                   className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
                >
                   <TipJar size={24} weight='fill' />
-                  <p className='text-2xl'>Donate via Tipme</p>
+                  <p className='text-2xl mobile:text-xl'>Donate via Tipme</p>
                </a>
             </div>
          </div>

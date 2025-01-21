@@ -4,8 +4,8 @@ import ReactQueryProvider from '@/provider/reactQueryProvider'
 import Navbar from '@/components/navbar'
 
 export const metadata: Metadata = {
-   title: 'เว็บของลูน่า',
-   description: 'ของแท้แน่นอน',
+   title: 'คิดถึงลูน่า',
+   description: '#ลูน่าไปไหน',
 }
 
 export default function RootLayout({
