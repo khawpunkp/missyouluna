@@ -1,13 +1,11 @@
-import Link from 'next/link'
 import './globals.css'
 import { Metadata } from 'next'
 import ReactQueryProvider from '@/provider/reactQueryProvider'
 import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
 
 export const metadata: Metadata = {
-   title: 'คิดถึงลูน่า',
-   description: '#ลูน่าอยู่ไหน',
+   title: 'เว็บของลูน่า',
+   description: 'ของแท้แน่นอน',
 }
 
 export default function RootLayout({

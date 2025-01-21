@@ -26,7 +26,7 @@ export default function Home() {
          <div className='flex flex-col gap-6 items-center justify-center'>
             <img
                alt='logo'
-               src='/img/logo.png'
+               src='/img/logo-fill.png'
                className={'max-h-[120px] mobile:w-[80vw] object-contain'}
             />
             <p className='text-2xl mobile:text-xl text-center'>
