@@ -3,6 +3,7 @@ import './globals.css'
 import { Metadata } from 'next'
 import ReactQueryProvider from '@/provider/reactQueryProvider'
 import Navbar from '@/components/navbar'
+import Footer from '@/components/footer'
 
 export const metadata: Metadata = {
    title: 'คิดถึงลูน่า',

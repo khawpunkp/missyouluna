@@ -1,6 +1,7 @@
 'use client'
 
 import { getCardList } from '@/api/api'
+import Footer from '@/components/footer'
 import { RarityResourceDto } from '@/dto/dto'
 import { CaretUp } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
@@ -26,7 +27,7 @@ export default function page({}: Props) {
    }
 
    return (
-      <div className='relative w-full flex flex-col items-center text-primary p-6 mobile:px-3 mobile:pb-3'>
+      <div className='relative w-full flex flex-col items-center text-primary p-4 mobile:px-3 mobile:pb-3'>
          <button
             type='button'
             title='scroll'
@@ -82,7 +83,7 @@ export default function page({}: Props) {
                      </button>
                   ))}
                </div>
-               <div className='flex flex-col gap-5 bg-white max-w-[1320px] p-8 mobile:p-4 rounded-2xl'>
+               <div className='flex flex-col gap-4 bg-white max-w-[1320px] p-8 mobile:p-4 rounded-2xl'>
                   {rare
                      .filter((r) => r.code === filter || filter === '')
                      .map((r, index) => (
@@ -103,6 +104,9 @@ export default function page({}: Props) {
                </div>
             </>
          )}
+         <div className='mt-4'>
+            <Footer />
+         </div>
       </div>
    )
 }

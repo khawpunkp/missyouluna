@@ -15,8 +15,9 @@ const config: Config = {
             desktop: { min: '1024px' },
          },
          colors: {
-            primary: '#985175',
+            primary: '#CB3494',
             secondary: '#FECFE7',
+            tertiary: '#D55CA9'
          },
          animation: {
             'reverse-spin': 'reverse-spin 0.3s linear infinite',
