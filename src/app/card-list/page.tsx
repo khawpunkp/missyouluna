@@ -104,9 +104,6 @@ export default function page({}: Props) {
                </div>
             </>
          )}
-         <div className='mt-4'>
-            <Footer />
-         </div>
       </div>
    )
 }
