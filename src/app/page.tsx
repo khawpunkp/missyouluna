@@ -175,7 +175,7 @@ export default function Home() {
                )}
             </div>
             <div className='flex flex-col p-4'>
-               <p className='text-xl'>{data.snippet.title}</p>
+               <p className='text-xl'>{data.snippet.title.split('#')[0]}</p>
                {isUpload && (
                   <p>
                      {'อัปโหลดเมื่อ ' +
