@@ -1,26 +1,35 @@
 'use client'
 
+import React, { useState, useEffect } from 'react'
 import { getCardList } from '@/api/api'
-import Footer from '@/components/footer'
 import { RarityResourceDto } from '@/dto/dto'
 import { CaretUp } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
 
 type Props = {}
 
 export default function page({}: Props) {
    const [filter, setFilter] = useState<string>('')
+   const [isShowImage, setIsShowImage] = useState(false)
 
-   const { data: rare = [], isLoading } = useQuery({
+   const { data: rare = [], isFetching } = useQuery({
       queryFn: async () => {
          const response = await getCardList()
-
          const data: RarityResourceDto[] = response.data
          return data
       },
       queryKey: ['card'],
    })
+
+   useEffect(() => {
+      if (!isFetching) {
+         const timer = setTimeout(() => {
+            setIsShowImage(true)
+         }, 1500)
+
+         return () => clearTimeout(timer)
+      }
+   }, [isFetching])
 
    const scrollToTop = () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
@@ -32,14 +41,14 @@ export default function page({}: Props) {
             type='button'
             title='scroll'
             className='fixed bottom-6 right-6 p-[18px] mobile:p-2 text-4xl mobile:text-2xl rounded-full bg-primary/50 text-white z-50'
-            onClick={() => scrollToTop()}
+            onClick={scrollToTop}
          >
             <CaretUp weight='fill' />
          </button>
 
          <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
 
-         {isLoading ? (
+         {!isShowImage ? (
             <div className='h-full w-full flex justify-center items-center'>
                <img
                   alt='loading'
@@ -56,8 +65,8 @@ export default function page({}: Props) {
                         onClick={() => setFilter('')}
                         className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
                            filter === ''
-                              ? 'bg-primary  border-white text-white'
-                              : 'bg-white  border-primary'
+                              ? 'bg-primary border-white text-white'
+                              : 'bg-white border-primary'
                         }`}
                      >
                         <span className='mobile:hidden'>{`A - `}</span>
@@ -71,8 +80,8 @@ export default function page({}: Props) {
                         onClick={() => setFilter(r.code)}
                         className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
                            filter === r.code
-                              ? 'bg-primary  border-white text-white'
-                              : 'bg-white  border-primary'
+                              ? 'bg-primary border-white text-white'
+                              : 'bg-white border-primary'
                         }`}
                      >
                         <span className='mobile:hidden'>

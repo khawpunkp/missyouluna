@@ -19,7 +19,7 @@ dayjs.extend(duration)
 export default function Home() {
    const [targetTime, setTargetTime] = useState<string>()
 
-   const { data: resource, isLoading } = useQuery({
+   const { data: resource, isFetching } = useQuery({
       queryFn: async () => {
          const response = await getVideos()
 
@@ -182,7 +182,7 @@ export default function Home() {
    }
 
    function LiveComponent() {
-      if (live && !isLoading)
+      if (live && !isFetching)
          return (
             <>
                <p className='text-2xl mobile:text-xl'>{'ลูน่าไลฟ์อยู่ที่'}</p>
@@ -201,7 +201,7 @@ export default function Home() {
    }
 
    function UpcomingComponent() {
-      if (!live && !isLoading && upcoming)
+      if (!live && !isFetching && upcoming)
          return (
             <>
                <p className='text-2xl mobile:text-xl'>{'แล้วลูน่าจะกลับมา'}</p>
@@ -228,7 +228,7 @@ export default function Home() {
    }
 
    function LastUploadComponent() {
-      if (!live && !isLoading && !upcoming && finished)
+      if (!live && !isFetching && !upcoming && finished)
          return (
             <>
                <div className='flex flex-col gap-1 items-center'>
@@ -252,7 +252,7 @@ export default function Home() {
    }
 
    function NotFoundComponent() {
-      if (!isLoading && resource?.length === 0)
+      if (!isFetching && resource?.length === 0)
          return (
             <>
                <p className='text-2xl'>เว็บพัง</p>
@@ -284,7 +284,7 @@ export default function Home() {
    return (
       <div className='overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
-            {isLoading ? (
+            {isFetching ? (
                <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
                   <img
                      src={'/img/sad-jellyfish.png'}

@@ -27,7 +27,7 @@ export default function Home() {
             <img
                alt='logo'
                src='/img/official-pirate.png'
-               className={'max-h-[120px] mobile:w-[80vw] object-contain'}
+               className={'max-h-[120px] mobile:w-full object-contain'}
             />
             <p className='text-2xl mobile:text-xl text-center'>
                LTX-022 aka. Lunatrix (ลูนาทริกซ์, ลูน่า)
