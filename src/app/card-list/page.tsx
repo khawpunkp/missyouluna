@@ -5,6 +5,8 @@ import { getCardList } from '@/api/api';
 import { RarityResourceDto } from '@/dto/dto';
 import { CaretUp } from '@phosphor-icons/react';
 import { useQuery } from '@tanstack/react-query';
+import FilterButton from '@/components/cardlist/filterButton';
+import LunaLoading from '@/components/cardlist/lunaLoading';
 
 export default function CardListPage() {
    const [filter, setFilter] = useState<string>('');
@@ -48,49 +50,33 @@ export default function CardListPage() {
          <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
 
          {!isShowImage || isFetching ? (
-            <div className='h-full w-full flex justify-center items-center'>
-               <picture>
-                  <img
-                     alt='loading'
-                     src='/img/luna_fast.png'
-                     className='animate-reverse-spin h-32'
-                  />
-               </picture>
-            </div>
+            <LunaLoading />
          ) : (
             <>
                <div className='flex flex-wrap gap-2 mb-6 w-full mobile:max-w-[90vw] max-w-[1000px] text-xl mobile:text-xs items-center justify-center'>
                   {cardListByRarity.length > 1 && (
-                     <button
-                        type='button'
+                     <FilterButton
+                        currentFilter={filter}
+                        code=''
                         onClick={() => setFilter('')}
-                        className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
-                           filter === ''
-                              ? 'bg-primary border-white text-white'
-                              : 'bg-white border-primary'
-                        }`}
                      >
                         <span className='mobile:hidden'>{`A - `}</span>
                         <span>{'Animal'}</span>
-                     </button>
+                     </FilterButton>
                   )}
                   {cardListByRarity.map((r, index) => (
-                     <button
-                        type='button'
+                     <FilterButton
                         key={index}
+                        code={r.code}
+                        currentFilter={filter}
                         onClick={() => setFilter(r.code)}
-                        className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
-                           filter === r.code
-                              ? 'bg-primary border-white text-white'
-                              : 'bg-white border-primary'
-                        }`}
                      >
                         <span className='mobile:hidden'>
                            {r.code}
                            {` - `}
                         </span>
                         <span>{r.title}</span>
-                     </button>
+                     </FilterButton>
                   ))}
                </div>
                <div className='flex flex-col gap-4 bg-white max-w-[1320px] p-8 mobile:p-4 rounded-2xl'>

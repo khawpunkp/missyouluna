@@ -1,7 +1,7 @@
 import './globals.css';
 import { Metadata } from 'next';
 import ReactQueryProvider from '@/provider/reactQueryProvider';
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/layout/navbar';
 
 export const metadata: Metadata = {
    title: 'คิดถึงลูน่า',

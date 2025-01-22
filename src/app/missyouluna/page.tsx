@@ -1,17 +1,17 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Broadcast, XLogo } from '@phosphor-icons/react';
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/th';
-dayjs.locale('th');
-import duration, { Duration } from 'dayjs/plugin/duration';
 import { VideoResourceDto } from '@/dto/dto';
 import { useQuery } from '@tanstack/react-query';
 import { getVideos } from '@/api/api';
-import Footer from '@/components/footer';
-dayjs.extend(duration);
+import Footer from '@/components/layout/footer';
+import LiveComponent from '@/components/missyouluna/liveComponent';
+import LastUploadComponent from '@/components/missyouluna/lastUploadComponent';
+import NotFoundComponent from '@/components/missyouluna/notFoundComponent';
+import TweetButton from '@/components/missyouluna/tweetButton';
+import UpcomingComponent from '@/components/missyouluna/upcomingComponent';
+import dayjs from 'dayjs';
+import SadJellyfish from '@/components/missyouluna/sadJellyfish';
 
 export default function MissYouLunaPage() {
    const [targetTime, setTargetTime] = useState<string>();
@@ -42,7 +42,7 @@ export default function MissYouLunaPage() {
       [resource],
    );
 
-   const finished = useMemo(
+   const lastUpload = useMemo(
       () =>
          resource
             ?.filter(
@@ -72,234 +72,33 @@ export default function MissYouLunaPage() {
    }, [upcoming]);
 
    useEffect(() => {
-      if (!live && !upcoming && finished) {
-         const time = finished?.liveStreamingDetails
-            ? finished?.liveStreamingDetails.actualStartTime
-            : finished.snippet.publishedAt;
+      if (!live && !upcoming && lastUpload) {
+         const time = lastUpload?.liveStreamingDetails
+            ? lastUpload?.liveStreamingDetails.actualStartTime
+            : lastUpload.snippet.publishedAt;
          setTargetTime(time ?? dayjs().toISOString());
       }
-   }, [finished]);
-
-   function TimerComponent({
-      isCountdown,
-      isLiveTimer,
-   }: {
-      isCountdown?: boolean;
-      isLiveTimer?: boolean;
-   }) {
-      const [timeLeft, setTimeLeft] = useState<Duration>(dayjs.duration(0));
-
-      useEffect(() => {
-         if (!targetTime) return;
-         const interval = setInterval(() => {
-            const now = dayjs();
-            const target = dayjs(targetTime);
-            const diff = isCountdown ? target.diff(now) : now.diff(target);
-            const newDuration = dayjs.duration(diff);
-
-            if (diff <= 0) {
-               clearInterval(interval);
-               setTimeLeft(dayjs.duration(0));
-            } else {
-               setTimeLeft(newDuration);
-            }
-         }, 1000);
-
-         return () => clearInterval(interval);
-      }, [targetTime]);
-
-      if (isLiveTimer) return <span>{timeLeft.format('HH:mm:ss')}</span>;
-      return (
-         <span>{timeLeft.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}</span>
-      );
-   }
-
-   function VideoCard({
-      data,
-      isUpload = false,
-   }: {
-      data: VideoResourceDto;
-      isUpload?: boolean;
-   }) {
-      return (
-         <div
-            onClick={() =>
-               window.open(`https://www.youtube.com/watch?v=${data.id}`)
-            }
-            className='flex flex-col hover:cursor-pointer rounded-2xl bg-white max-w-[500px] w-full hover:scale-[1.03] transition-all duration-300 '
-         >
-            <div className='w-full h-fit p-2 pb-0 relative'>
-               <picture>
-                  <img
-                     src={data.snippet.thumbnails.maxres.url}
-                     alt='thumbnail'
-                     className='aspect-video w-full rounded-xl object-cover border'
-                  />
-               </picture>
-               {!isUpload && (
-                  <>
-                     {data.snippet.liveBroadcastContent === 'live' && (
-                        <div
-                           className={
-                              'absolute flex bottom-2 right-4 gap-2 text-white rounded-md p-2 bg-[#FF0000cc]'
-                           }
-                        >
-                           {<Broadcast color='white' size={24} />}
-                           <TimerComponent isLiveTimer />
-                        </div>
-                     )}
-                     {data.snippet.liveBroadcastContent !== 'live' && (
-                        <div
-                           className={
-                              'absolute flex bottom-2 right-4 gap-2 text-white rounded-md p-2 bg-[#000000cc]'
-                           }
-                        >
-                           {<Broadcast color='white' size={24} />}
-                           {dayjs(targetTime).format(
-                              'ddd DD MMM เวลา HH:mm น.',
-                           )}
-                        </div>
-                     )}
-                  </>
-               )}
-            </div>
-            <div className='flex flex-col p-4'>
-               <p className='text-xl'>{data.snippet.title.split('#')[0]}</p>
-               {isUpload && (
-                  <p>
-                     {'อัปโหลดเมื่อ ' +
-                        dayjs(targetTime).format('DD MMM เวลา HH:mm น.')}
-                  </p>
-               )}
-            </div>
-         </div>
-      );
-   }
-
-   function LiveComponent({ data }: { data: VideoResourceDto }) {
-      return (
-         <>
-            <p className='text-2xl mobile:text-xl'>{'ลูน่าไลฟ์อยู่ที่'}</p>
-            <VideoCard data={data} />
-            <div
-               className='flex flex-col items-center gap-1 hover:cursor-pointer'
-               onClick={() =>
-                  window.open(`https://www.youtube.com/watch?v=${data.id}`)
-               }
-            >
-               <picture>
-                  <img src='/img/live.webp' alt='live' />
-               </picture>
-               <p className='text-xl'>ไปดูดิ</p>
-            </div>
-         </>
-      );
-   }
-
-   function UpcomingComponent({ data }: { data: VideoResourceDto }) {
-      return (
-         <>
-            <p className='text-2xl mobile:text-xl'>{'แล้วลูน่าจะกลับมา'}</p>
-            <VideoCard data={data} />
-            <p className='text-2xl mobile:text-xl align-bottom	'>
-               <span>{'ในอีก '}</span>
-               <span className='font-semibold'>
-                  <TimerComponent />
-               </span>
-            </p>
-            <div
-               className='flex flex-col items-center gap-1 hover:cursor-pointer'
-               onClick={() =>
-                  window.open(`https://www.youtube.com/watch?v=${data.id}`)
-               }
-            >
-               <picture>
-                  <img src='/img/wait.webp' alt='wait' />
-               </picture>
-               <p className='text-xl'>ไปรอดิ</p>
-            </div>
-         </>
-      );
-   }
-
-   function LastUploadComponent({ data }: { data: VideoResourceDto }) {
-      return (
-         <>
-            <div className='flex flex-col gap-1 items-center'>
-               <p className='text-2xl mobile:text-xl'>
-                  ทำไรอยู่ไม่รู้ แต่พบเห็นล่าสุดเมื่อ
-               </p>
-               <p className='text-2xl mobile:text-xl align-bottom'>
-                  <span className='font-semibold'>
-                     <TimerComponent />
-                  </span>
-                  <span>{' ที่แล้ว'}</span>
-               </p>
-            </div>
-            <VideoCard data={data} isUpload />
-            <div className='flex flex-col items-center gap-1'>
-               <picture>
-                  <img src='/img/finished.webp' alt='missing' />
-               </picture>
-               <p className='text-xl'>#ลูน่าไปไหน</p>
-            </div>
-         </>
-      );
-   }
-
-   function NotFoundComponent() {
-      return (
-         <>
-            <p className='text-2xl'>หาวิดีโอไม่เจอ</p>
-            <picture>
-               <img
-                  src='/img/sad-jellyfish.jpg'
-                  className='max-w-52'
-                  alt='sad-jellyfish'
-               />
-            </picture>
-         </>
-      );
-   }
-
-   function TweetButton() {
-      return (
-         <a
-            className={
-               'flex gap-2 mobile:gap-1 items-center text-xl mobile:text-base rounded-full py-2 px-4 hover:scale-[1.03] transition-all duration-300 hover:cursor-pointer bg-primary text-white'
-            }
-            href='https://twitter.com/intent/tweet?hashtags=Trixarium&related=twitterapi%2Ctwitter&text=คิดถึงลูน่าค้าบ'
-            target='_blank'
-            rel='noopener noreferrer'
-         >
-            บอกคิดถึงลูน่าผ่าน
-            <XLogo weight='duotone' className='text-[32px] mobile:text-xl' />
-         </a>
-      );
-   }
+   }, [lastUpload]);
 
    return (
       <div className='overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
             {isFetching ? (
-               <div className='flex flex-col gap-2 items-center justify-center'>
-                  <picture>
-                     <img
-                        src={'/img/sad-jellyfish.png'}
-                        alt='sad-jellyfish'
-                        className='w-16 animate-bounce'
-                     />
-                  </picture>
-                  <p> sad jellyfish</p>
-               </div>
+               <SadJellyfish />
             ) : (
                <>
                   {live ? (
-                     <LiveComponent data={live} />
+                     <LiveComponent data={live} targetTime={targetTime} />
                   ) : upcoming ? (
-                     <UpcomingComponent data={upcoming} />
-                  ) : finished ? (
-                     <LastUploadComponent data={finished} />
+                     <UpcomingComponent
+                        data={upcoming}
+                        targetTime={targetTime}
+                     />
+                  ) : lastUpload ? (
+                     <LastUploadComponent
+                        data={lastUpload}
+                        targetTime={targetTime}
+                     />
                   ) : (
                      <NotFoundComponent />
                   )}
