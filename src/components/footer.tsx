@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { socialUrls } from '@/const/social'
-import { SocialIcon } from 'react-social-icons'
+import { socialUrls } from '@/const/social';
+import { SocialIcon } from 'react-social-icons';
 
 export default function Footer() {
    return (
@@ -22,13 +22,15 @@ export default function Footer() {
                rel='noopener noreferrer'
                className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full'
             >
-               <img
-                  alt='gank'
-                  src='/img/gank.png'
-                  className='!w-8 !h-8 rounded-full'
-               />
+               <picture>
+                  <img
+                     alt='gank'
+                     src='/img/gank.png'
+                     className='!w-8 !h-8 rounded-full'
+                  />
+               </picture>
             </a>
          </div>
       </footer>
-   )
+   );
 }

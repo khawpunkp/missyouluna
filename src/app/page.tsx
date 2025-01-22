@@ -1,12 +1,9 @@
-'use client'
+'use client';
 
-import {
-   ShoppingCartSimple,
-   TipJar,
-} from '@phosphor-icons/react'
+import { ShoppingCartSimple, TipJar } from '@phosphor-icons/react';
 
-import { socialUrls } from '@/const/social'
-import { SocialIcon } from 'react-social-icons'
+import { socialUrls } from '@/const/social';
+import { SocialIcon } from 'react-social-icons';
 
 export default function Home() {
    return (
@@ -17,18 +14,22 @@ export default function Home() {
             rel='noopener noreferrer'
             className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer'
          >
-            <img
-               alt='luna'
-               src='/img/luna.png'
-               className='max-h-[80vh] max-w-[40vw] mobile:max-w-[80vw] object-contain'
-            />
+            <picture>
+               <img
+                  alt='luna'
+                  src='/img/luna.png'
+                  className='max-h-[80vh] max-w-[40vw] mobile:max-w-[80vw] object-contain'
+               />
+            </picture>
          </a>
          <div className='flex flex-col gap-6 items-center justify-center'>
-            <img
-               alt='logo'
-               src='/img/official-pirate.png'
-               className={'max-h-[120px] mobile:w-full object-contain'}
-            />
+            <picture>
+               <img
+                  alt='logo'
+                  src='/img/official-pirate.png'
+                  className={'max-h-[120px] mobile:w-full object-contain'}
+               />
+            </picture>
             <p className='text-2xl mobile:text-xl text-center'>
                LTX-022 aka. Lunatrix (ลูนาทริกซ์, ลูน่า)
                <br />
@@ -53,11 +54,13 @@ export default function Home() {
                   rel='noopener noreferrer'
                   className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full'
                >
-                  <img
-                     alt='gank'
-                     src='/img/gank.png'
-                     className='!w-12 !h-12 rounded-full'
-                  />
+                  <picture>
+                     <img
+                        alt='gank'
+                        src='/img/gank.png'
+                        className='!w-12 !h-12 rounded-full'
+                     />
+                  </picture>
                </a>
             </div>
             <div className='h-px w-full bg-white' />
@@ -83,5 +86,5 @@ export default function Home() {
             </div>
          </div>
       </div>
-   )
+   );
 }

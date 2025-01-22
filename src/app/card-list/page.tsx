@@ -1,39 +1,37 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import { getCardList } from '@/api/api'
-import { RarityResourceDto } from '@/dto/dto'
-import { CaretUp } from '@phosphor-icons/react'
-import { useQuery } from '@tanstack/react-query'
+import React, { useState, useEffect } from 'react';
+import { getCardList } from '@/api/api';
+import { RarityResourceDto } from '@/dto/dto';
+import { CaretUp } from '@phosphor-icons/react';
+import { useQuery } from '@tanstack/react-query';
 
-type Props = {}
-
-export default function page({}: Props) {
-   const [filter, setFilter] = useState<string>('')
-   const [isShowImage, setIsShowImage] = useState(false)
+export default function CardListPage() {
+   const [filter, setFilter] = useState<string>('');
+   const [isShowImage, setIsShowImage] = useState(false);
 
    const { data: rare = [], isFetching } = useQuery({
       queryFn: async () => {
-         const response = await getCardList()
-         const data: RarityResourceDto[] = response.data
-         return data
+         const response = await getCardList();
+         const data: RarityResourceDto[] = response.data;
+         return data;
       },
       queryKey: ['card'],
-   })
+   });
 
    useEffect(() => {
       if (!isFetching) {
          const timer = setTimeout(() => {
-            setIsShowImage(true)
-         }, 1500)
+            setIsShowImage(true);
+         }, 1000);
 
-         return () => clearTimeout(timer)
+         return () => clearTimeout(timer);
       }
-   }, [isFetching])
+   }, [isFetching]);
 
    const scrollToTop = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-   }
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+   };
 
    return (
       <div className='relative w-full flex flex-col items-center text-primary p-4 mobile:px-3 mobile:pb-3'>
@@ -50,11 +48,13 @@ export default function page({}: Props) {
 
          {!isShowImage ? (
             <div className='h-full w-full flex justify-center items-center'>
-               <img
-                  alt='loading'
-                  src='/img/luna_fast.png'
-                  className='animate-reverse-spin h-32'
-               />
+               <picture>
+                  <img
+                     alt='loading'
+                     src='/img/luna_fast.png'
+                     className='animate-reverse-spin h-32'
+                  />
+               </picture>
             </div>
          ) : (
             <>
@@ -100,12 +100,13 @@ export default function page({}: Props) {
                            <p className='text-2xl'>{`${r.code} - ${r.title}`}</p>
                            <div className='grid grid-cols-5 gap-5 mobile:grid-cols-3 mobile:gap-2'>
                               {r.Card?.map((c, index) => (
-                                 <img
-                                    alt=''
-                                    key={index}
-                                    src={c.imgSrc}
-                                    className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300 '
-                                 />
+                                 <picture key={index}>
+                                    <img
+                                       alt=''
+                                       src={c.imgSrc}
+                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300 '
+                                    />
+                                 </picture>
                               ))}
                            </div>
                         </div>
@@ -114,5 +115,5 @@ export default function page({}: Props) {
             </>
          )}
       </div>
-   )
+   );
 }

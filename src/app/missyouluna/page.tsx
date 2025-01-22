@@ -1,33 +1,30 @@
-'use client'
+'use client';
 
-import { useEffect, useMemo, useState } from 'react'
-import {
-   Broadcast,
-   XLogo,
-} from '@phosphor-icons/react'
+import { useEffect, useMemo, useState } from 'react';
+import { Broadcast, XLogo } from '@phosphor-icons/react';
 
-import dayjs from 'dayjs'
-import 'dayjs/locale/th'
-dayjs.locale('th')
-import duration, { Duration } from 'dayjs/plugin/duration'
-import { VideoResourceDto } from '@/dto/dto'
-import { useQuery } from '@tanstack/react-query'
-import { getVideos } from '@/api/api'
-import Footer from '@/components/footer'
-dayjs.extend(duration)
+import dayjs from 'dayjs';
+import 'dayjs/locale/th';
+dayjs.locale('th');
+import duration, { Duration } from 'dayjs/plugin/duration';
+import { VideoResourceDto } from '@/dto/dto';
+import { useQuery } from '@tanstack/react-query';
+import { getVideos } from '@/api/api';
+import Footer from '@/components/footer';
+dayjs.extend(duration);
 
-export default function Home() {
-   const [targetTime, setTargetTime] = useState<string>()
+export default function MissYouLunaPage() {
+   const [targetTime, setTargetTime] = useState<string>();
 
    const { data: resource, isFetching } = useQuery({
       queryFn: async () => {
-         const response = await getVideos()
+         const response = await getVideos();
 
-         const data: VideoResourceDto[] = response.data.items
-         return data
+         const data: VideoResourceDto[] = response.data.items;
+         return data;
       },
       queryKey: ['video'],
-   })
+   });
 
    const live = useMemo(
       () =>
@@ -35,7 +32,7 @@ export default function Home() {
             (stream) => stream.snippet.liveBroadcastContent === 'live',
          ),
       [resource],
-   )
+   );
 
    const upcoming = useMemo(
       () =>
@@ -43,7 +40,7 @@ export default function Home() {
             (stream) => stream.snippet.liveBroadcastContent === 'upcoming',
          ),
       [resource],
-   )
+   );
 
    const finished = useMemo(
       () =>
@@ -57,76 +54,72 @@ export default function Home() {
                dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt)),
             )[0],
       [resource],
-   )
-
-   useEffect(() => {
-      getVideos()
-   }, [])
+   );
 
    useEffect(() => {
       if (live)
          setTargetTime(
             live.liveStreamingDetails?.actualStartTime ?? dayjs().toISOString(),
-         )
-   }, [live])
+         );
+   }, [live]);
 
    useEffect(() => {
       if (!live && upcoming)
          setTargetTime(
             upcoming?.liveStreamingDetails?.scheduledStartTime ??
                dayjs().toISOString(),
-         )
-   }, [upcoming])
+         );
+   }, [upcoming]);
 
    useEffect(() => {
       if (!live && !upcoming && finished) {
          const time = finished?.liveStreamingDetails
             ? finished?.liveStreamingDetails.actualStartTime
-            : finished.snippet.publishedAt
-         setTargetTime(time ?? dayjs().toISOString())
+            : finished.snippet.publishedAt;
+         setTargetTime(time ?? dayjs().toISOString());
       }
-   }, [finished])
+   }, [finished]);
 
    function TimerComponent({
       isCountdown,
       isLiveTimer,
    }: {
-      isCountdown?: boolean
-      isLiveTimer?: boolean
+      isCountdown?: boolean;
+      isLiveTimer?: boolean;
    }) {
-      const [timeLeft, setTimeLeft] = useState<Duration>()
+      const [timeLeft, setTimeLeft] = useState<Duration>();
 
       useEffect(() => {
-         if (!targetTime) return
+         if (!targetTime) return;
          const interval = setInterval(() => {
-            const now = dayjs()
-            const target = dayjs(targetTime)
-            const diff = isCountdown ? target.diff(now) : now.diff(target)
-            const newDuration = dayjs.duration(diff)
+            const now = dayjs();
+            const target = dayjs(targetTime);
+            const diff = isCountdown ? target.diff(now) : now.diff(target);
+            const newDuration = dayjs.duration(diff);
 
             if (diff <= 0) {
-               clearInterval(interval)
-               setTimeLeft(dayjs.duration(0))
+               clearInterval(interval);
+               setTimeLeft(dayjs.duration(0));
             } else {
-               setTimeLeft(newDuration)
+               setTimeLeft(newDuration);
             }
-         }, 1000)
+         }, 1000);
 
-         return () => clearInterval(interval)
-      }, [targetTime])
+         return () => clearInterval(interval);
+      }, [targetTime]);
 
-      if (isLiveTimer) return <span>{timeLeft?.format('HH:mm:ss')}</span>
+      if (isLiveTimer) return <span>{timeLeft?.format('HH:mm:ss')}</span>;
       return (
          <span>{timeLeft?.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}</span>
-      )
+      );
    }
 
    function VideoCard({
       data,
       isUpload = false,
    }: {
-      data: VideoResourceDto
-      isUpload?: boolean
+      data: VideoResourceDto;
+      isUpload?: boolean;
    }) {
       return (
          <div
@@ -136,11 +129,13 @@ export default function Home() {
             className='flex flex-col hover:cursor-pointer rounded-2xl bg-white max-w-[500px] w-full hover:scale-[1.03] transition-all duration-300 '
          >
             <div className='w-full h-fit p-2 pb-0 relative'>
-               <img
-                  src={data.snippet.thumbnails.maxres.url}
-                  alt='thumbnail'
-                  className='aspect-video w-full rounded-xl object-cover border'
-               />
+               <picture>
+                  <img
+                     src={data.snippet.thumbnails.maxres.url}
+                     alt='thumbnail'
+                     className='aspect-video w-full rounded-xl object-cover border'
+                  />
+               </picture>
                {!isUpload && (
                   <>
                      {data.snippet.liveBroadcastContent === 'live' && (
@@ -178,7 +173,7 @@ export default function Home() {
                )}
             </div>
          </div>
-      )
+      );
    }
 
    function LiveComponent() {
@@ -193,11 +188,13 @@ export default function Home() {
                      window.open(`https://www.youtube.com/watch?v=${live.id}`)
                   }
                >
-                  <img src='/img/live.webp' alt='live' />
+                  <picture>
+                     <img src='/img/live.webp' alt='live' />
+                  </picture>
                   <p className='text-xl'>ไปดูดิ</p>
                </div>
             </>
-         )
+         );
    }
 
    function UpcomingComponent() {
@@ -220,11 +217,13 @@ export default function Home() {
                      )
                   }
                >
-                  <img src='/img/wait.webp' alt='wait' />
+                  <picture>
+                     <img src='/img/wait.webp' alt='wait' />
+                  </picture>
                   <p className='text-xl'>ไปรอดิ</p>
                </div>
             </>
-         )
+         );
    }
 
    function LastUploadComponent() {
@@ -244,11 +243,13 @@ export default function Home() {
                </div>
                <VideoCard data={finished} isUpload />
                <div className='flex flex-col items-center gap-1'>
-                  <img src='/img/finished.webp' alt='missing' />
+                  <picture>
+                     <img src='/img/finished.webp' alt='missing' />
+                  </picture>
                   <p className='text-xl'>#ลูน่าไปไหน</p>
                </div>
             </>
-         )
+         );
    }
 
    function NotFoundComponent() {
@@ -256,13 +257,15 @@ export default function Home() {
          return (
             <>
                <p className='text-2xl'>เว็บพัง</p>
-               <img
-                  src='/img/sad-jellyfish.jpg'
-                  className='max-w-52'
-                  alt='sad-jellyfish'
-               />
+               <picture>
+                  <img
+                     src='/img/sad-jellyfish.jpg'
+                     className='max-w-52'
+                     alt='sad-jellyfish'
+                  />
+               </picture>
             </>
-         )
+         );
    }
 
    function TweetButton() {
@@ -278,20 +281,22 @@ export default function Home() {
             บอกคิดถึงลูน่าผ่าน
             <XLogo weight='duotone' className='text-[32px] mobile:text-xl' />
          </a>
-      )
-   }  
+      );
+   }
 
    return (
       <div className='overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
             {isFetching ? (
-               <div className='flex flex-col gap-2 items-center justify-center animate-bounce '>
-                  <img
-                     src={'/img/sad-jellyfish.png'}
-                     alt='sad-jellyfish'
-                     className='w-16'
-                  />
-                  sad jellyfish
+               <div className='flex flex-col gap-2 items-center justify-center'>
+                  <picture>
+                     <img
+                        src={'/img/sad-jellyfish.png'}
+                        alt='sad-jellyfish'
+                        className='w-16 animate-bounce'
+                     />
+                  </picture>
+                  <p> sad jellyfish</p>
                </div>
             ) : (
                <>
@@ -305,5 +310,5 @@ export default function Home() {
          </div>
          <Footer />
       </div>
-   )
+   );
 }

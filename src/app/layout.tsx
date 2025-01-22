@@ -1,17 +1,17 @@
-import './globals.css'
-import { Metadata } from 'next'
-import ReactQueryProvider from '@/provider/reactQueryProvider'
-import Navbar from '@/components/navbar'
+import './globals.css';
+import { Metadata } from 'next';
+import ReactQueryProvider from '@/provider/reactQueryProvider';
+import Navbar from '@/components/navbar';
 
 export const metadata: Metadata = {
    title: 'คิดถึงลูน่า',
    description: '#ลูน่าไปไหน',
-}
+};
 
 export default function RootLayout({
    children,
 }: {
-   children: React.ReactNode
+   children: React.ReactNode;
 }) {
    return (
       <html lang='th'>
@@ -37,5 +37,5 @@ export default function RootLayout({
             </body>
          </ReactQueryProvider>
       </html>
-   )
+   );
 }

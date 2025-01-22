@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
    content: [
@@ -17,7 +17,7 @@ const config: Config = {
          colors: {
             primary: '#CB3494',
             secondary: '#FECFE7',
-            tertiary: '#D55CA9'
+            tertiary: '#D55CA9',
          },
          animation: {
             'reverse-spin': 'reverse-spin 0.3s linear infinite',
@@ -32,5 +32,5 @@ const config: Config = {
       },
    },
    plugins: [],
-}
-export default config
+};
+export default config;

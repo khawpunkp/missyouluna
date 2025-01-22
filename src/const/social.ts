@@ -6,4 +6,4 @@ export const socialUrls = [
    'https://www.tiktok.com/@ltx022',
    'https://discord.com/invite/ltx022',
    'https://line.me/R/ti/p/@196ysplp',
-]
+];
