@@ -41,7 +41,7 @@ export default function CardListPage() {
          <button
             type='button'
             title='scroll'
-            className='fixed bottom-6 right-6 p-[18px] mobile:p-2 text-4xl mobile:text-2xl rounded-full bg-primary/50 text-white z-50'
+            className='fixed bottom-6 right-6 p-3 mobile:p-2 text-3xl mobile:text-2xl rounded-full bg-primary/50 text-white z-50'
             onClick={scrollToTop}
          >
             <CaretUp weight='fill' />
