@@ -30,7 +30,6 @@ export default function RootLayout({
          />
          <meta name='apple-mobile-web-app-title' content='คิดถึงลูน่า' />
          <link rel='manifest' href='/site.webmanifest' />
-         {/* visit https://realfavicongenerator.net/ to generate favicon for all device and place code below*/}
          <ReactQueryProvider>
             <body className='m-0 min-h-screen bg-[#FECFE7] flex flex-col'>
                <Navbar />
