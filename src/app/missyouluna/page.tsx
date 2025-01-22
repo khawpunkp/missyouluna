@@ -176,96 +176,90 @@ export default function MissYouLunaPage() {
       );
    }
 
-   function LiveComponent() {
-      if (live && !!targetTime)
-         return (
-            <>
-               <p className='text-2xl mobile:text-xl'>{'ลูน่าไลฟ์อยู่ที่'}</p>
-               <VideoCard data={live} />
-               <div
-                  className='flex flex-col items-center gap-1 hover:cursor-pointer'
-                  onClick={() =>
-                     window.open(`https://www.youtube.com/watch?v=${live.id}`)
-                  }
-               >
-                  <picture>
-                     <img src='/img/live.webp' alt='live' />
-                  </picture>
-                  <p className='text-xl'>ไปดูดิ</p>
-               </div>
-            </>
-         );
+   function LiveComponent({ data }: { data: VideoResourceDto }) {
+      return (
+         <>
+            <p className='text-2xl mobile:text-xl'>{'ลูน่าไลฟ์อยู่ที่'}</p>
+            <VideoCard data={data} />
+            <div
+               className='flex flex-col items-center gap-1 hover:cursor-pointer'
+               onClick={() =>
+                  window.open(`https://www.youtube.com/watch?v=${data.id}`)
+               }
+            >
+               <picture>
+                  <img src='/img/live.webp' alt='live' />
+               </picture>
+               <p className='text-xl'>ไปดูดิ</p>
+            </div>
+         </>
+      );
    }
 
-   function UpcomingComponent() {
-      if (!live && upcoming && !!targetTime)
-         return (
-            <>
-               <p className='text-2xl mobile:text-xl'>{'แล้วลูน่าจะกลับมา'}</p>
-               <VideoCard data={upcoming} />
-               <p className='text-2xl mobile:text-xl align-bottom	'>
-                  <span>{'ในอีก '}</span>
+   function UpcomingComponent({ data }: { data: VideoResourceDto }) {
+      return (
+         <>
+            <p className='text-2xl mobile:text-xl'>{'แล้วลูน่าจะกลับมา'}</p>
+            <VideoCard data={data} />
+            <p className='text-2xl mobile:text-xl align-bottom	'>
+               <span>{'ในอีก '}</span>
+               <span className='font-semibold'>
+                  <TimerComponent />
+               </span>
+            </p>
+            <div
+               className='flex flex-col items-center gap-1 hover:cursor-pointer'
+               onClick={() =>
+                  window.open(`https://www.youtube.com/watch?v=${data.id}`)
+               }
+            >
+               <picture>
+                  <img src='/img/wait.webp' alt='wait' />
+               </picture>
+               <p className='text-xl'>ไปรอดิ</p>
+            </div>
+         </>
+      );
+   }
+
+   function LastUploadComponent({ data }: { data: VideoResourceDto }) {
+      return (
+         <>
+            <div className='flex flex-col gap-1 items-center'>
+               <p className='text-2xl mobile:text-xl'>
+                  ทำไรอยู่ไม่รู้ แต่พบเห็นล่าสุดเมื่อ
+               </p>
+               <p className='text-2xl mobile:text-xl align-bottom'>
                   <span className='font-semibold'>
                      <TimerComponent />
                   </span>
+                  <span>{' ที่แล้ว'}</span>
                </p>
-               <div
-                  className='flex flex-col items-center gap-1 hover:cursor-pointer'
-                  onClick={() =>
-                     window.open(
-                        `https://www.youtube.com/watch?v=${upcoming.id}`,
-                     )
-                  }
-               >
-                  <picture>
-                     <img src='/img/wait.webp' alt='wait' />
-                  </picture>
-                  <p className='text-xl'>ไปรอดิ</p>
-               </div>
-            </>
-         );
-   }
-
-   function LastUploadComponent() {
-      if (!live && !upcoming && finished && !!targetTime)
-         return (
-            <>
-               <div className='flex flex-col gap-1 items-center'>
-                  <p className='text-2xl mobile:text-xl'>
-                     ทำไรอยู่ไม่รู้ แต่พบเห็นล่าสุดเมื่อ
-                  </p>
-                  <p className='text-2xl mobile:text-xl align-bottom'>
-                     <span className='font-semibold'>
-                        <TimerComponent />
-                     </span>
-                     <span>{' ที่แล้ว'}</span>
-                  </p>
-               </div>
-               <VideoCard data={finished} isUpload />
-               <div className='flex flex-col items-center gap-1'>
-                  <picture>
-                     <img src='/img/finished.webp' alt='missing' />
-                  </picture>
-                  <p className='text-xl'>#ลูน่าไปไหน</p>
-               </div>
-            </>
-         );
+            </div>
+            <VideoCard data={data} isUpload />
+            <div className='flex flex-col items-center gap-1'>
+               <picture>
+                  <img src='/img/finished.webp' alt='missing' />
+               </picture>
+               <p className='text-xl'>#ลูน่าไปไหน</p>
+            </div>
+         </>
+      );
    }
 
    function NotFoundComponent() {
-      if (!resource || resource?.length === 0)
-         return (
-            <>
-               <p className='text-2xl'>หาวิดีโอไม่เจอ</p>
-               <picture>
-                  <img
-                     src='/img/sad-jellyfish.jpg'
-                     className='max-w-52'
-                     alt='sad-jellyfish'
-                  />
-               </picture>
-            </>
-         );
+      return (
+         <>
+            <p className='text-2xl'>หาวิดีโอไม่เจอ</p>
+            <picture>
+               <img
+                  src='/img/sad-jellyfish.jpg'
+                  className='max-w-52'
+                  alt='sad-jellyfish'
+               />
+            </picture>
+         </>
+      );
    }
 
    function TweetButton() {
@@ -300,10 +294,15 @@ export default function MissYouLunaPage() {
                </div>
             ) : (
                <>
-                  <LiveComponent />
-                  <UpcomingComponent />
-                  <LastUploadComponent />
-                  <NotFoundComponent />
+                  {live ? (
+                     <LiveComponent data={live} />
+                  ) : upcoming ? (
+                     <UpcomingComponent data={upcoming} />
+                  ) : finished ? (
+                     <LastUploadComponent data={finished} />
+                  ) : (
+                     <NotFoundComponent />
+                  )}
                   <TweetButton />
                </>
             )}
