@@ -87,7 +87,7 @@ export default function MissYouLunaPage() {
       isCountdown?: boolean;
       isLiveTimer?: boolean;
    }) {
-      const [timeLeft, setTimeLeft] = useState<Duration>();
+      const [timeLeft, setTimeLeft] = useState<Duration>(dayjs.duration(0));
 
       useEffect(() => {
          if (!targetTime) return;
@@ -108,9 +108,9 @@ export default function MissYouLunaPage() {
          return () => clearInterval(interval);
       }, [targetTime]);
 
-      if (isLiveTimer) return <span>{timeLeft?.format('HH:mm:ss')}</span>;
+      if (isLiveTimer) return <span>{timeLeft.format('HH:mm:ss')}</span>;
       return (
-         <span>{timeLeft?.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}</span>
+         <span>{timeLeft.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}</span>
       );
    }
 
@@ -177,7 +177,7 @@ export default function MissYouLunaPage() {
    }
 
    function LiveComponent() {
-      if (live && !isFetching)
+      if (live && !!targetTime)
          return (
             <>
                <p className='text-2xl mobile:text-xl'>{'ลูน่าไลฟ์อยู่ที่'}</p>
@@ -198,15 +198,15 @@ export default function MissYouLunaPage() {
    }
 
    function UpcomingComponent() {
-      if (!live && !isFetching && upcoming)
+      if (!live && upcoming && !!targetTime)
          return (
             <>
                <p className='text-2xl mobile:text-xl'>{'แล้วลูน่าจะกลับมา'}</p>
                <VideoCard data={upcoming} />
-               <p className='text-2xl mobile:text-xl'>
+               <p className='text-2xl mobile:text-xl align-bottom	'>
                   <span>{'ในอีก '}</span>
                   <span className='font-semibold'>
-                     <TimerComponent isCountdown />
+                     <TimerComponent />
                   </span>
                </p>
                <div
@@ -227,14 +227,14 @@ export default function MissYouLunaPage() {
    }
 
    function LastUploadComponent() {
-      if (!live && !isFetching && !upcoming && finished)
+      if (!live && !upcoming && finished && !!targetTime)
          return (
             <>
                <div className='flex flex-col gap-1 items-center'>
                   <p className='text-2xl mobile:text-xl'>
                      ทำไรอยู่ไม่รู้ แต่พบเห็นล่าสุดเมื่อ
                   </p>
-                  <p className='text-2xl mobile:text-xl'>
+                  <p className='text-2xl mobile:text-xl align-bottom'>
                      <span className='font-semibold'>
                         <TimerComponent />
                      </span>
@@ -253,10 +253,10 @@ export default function MissYouLunaPage() {
    }
 
    function NotFoundComponent() {
-      if (!isFetching && resource?.length === 0)
+      if (!resource || resource?.length === 0)
          return (
             <>
-               <p className='text-2xl'>เว็บพัง</p>
+               <p className='text-2xl'>หาวิดีโอไม่เจอ</p>
                <picture>
                   <img
                      src='/img/sad-jellyfish.jpg'
