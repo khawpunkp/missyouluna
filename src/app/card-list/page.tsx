@@ -10,7 +10,7 @@ export default function CardListPage() {
    const [filter, setFilter] = useState<string>('');
    const [isShowImage, setIsShowImage] = useState(false);
 
-   const { data: rare = [], isFetching } = useQuery({
+   const { data: cardListByRarity = [], isFetching } = useQuery({
       queryFn: async () => {
          const response = await getCardList();
          const data: RarityResourceDto[] = response.data;
@@ -19,22 +19,22 @@ export default function CardListPage() {
       queryKey: ['card'],
    });
 
-   useEffect(() => {
-      if (!isFetching) {
-         const timer = setTimeout(() => {
-            setIsShowImage(true);
-         }, 1000);
-
-         return () => clearTimeout(timer);
-      }
-   }, [isFetching]);
-
    const scrollToTop = () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
    };
 
    return (
       <div className='relative w-full flex flex-col items-center text-primary p-4 mobile:px-3 mobile:pb-3'>
+         <img
+            alt=''
+            src={cardListByRarity[0]?.Card[0]?.imgSrc}
+            className='hidden'
+            onLoad={() =>
+               setTimeout(() => {
+                  setIsShowImage(true);
+               }, 500)
+            }
+         />
          <button
             type='button'
             title='scroll'
@@ -46,7 +46,7 @@ export default function CardListPage() {
 
          <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
 
-         {!isShowImage ? (
+         {!isShowImage || isFetching ? (
             <div className='h-full w-full flex justify-center items-center'>
                <picture>
                   <img
@@ -59,7 +59,7 @@ export default function CardListPage() {
          ) : (
             <>
                <div className='flex flex-wrap gap-2 mb-6 w-full mobile:max-w-[90vw] max-w-[1000px] text-xl mobile:text-xs items-center justify-center'>
-                  {rare.length > 1 && (
+                  {cardListByRarity.length > 1 && (
                      <button
                         type='button'
                         onClick={() => setFilter('')}
@@ -73,7 +73,7 @@ export default function CardListPage() {
                         <span>{'Animal'}</span>
                      </button>
                   )}
-                  {rare.map((r, index) => (
+                  {cardListByRarity.map((r, index) => (
                      <button
                         type='button'
                         key={index}
@@ -93,7 +93,7 @@ export default function CardListPage() {
                   ))}
                </div>
                <div className='flex flex-col gap-4 bg-white max-w-[1320px] p-8 mobile:p-4 rounded-2xl'>
-                  {rare
+                  {cardListByRarity
                      .filter((r) => r.code === filter || filter === '')
                      .map((r, index) => (
                         <div key={index} className='flex flex-col gap-4'>
@@ -104,7 +104,7 @@ export default function CardListPage() {
                                     <img
                                        alt=''
                                        src={c.imgSrc}
-                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300 '
+                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300'                                      
                                     />
                                  </picture>
                               ))}
