@@ -86,7 +86,7 @@ export default function MissYouLunaPage() {
          <button
             type='button'
             title=''
-            className='fixed bottom-6 left-6 rounded-full z-50 mobile:hidden'
+            className='absolute bottom-6 right-6 mobile:bottom-0 mobile:right-0 rounded-full z-50'
             onClick={() => setSadjellyfish((prev) => !prev)}
             hidden={isFetching}
          >
