@@ -19,11 +19,11 @@ export default function MissYouLunaPage() {
    const { data: resource, isFetching } = useQuery({
       queryFn: async () => {
          const response = await getVideos();
-
          const data: VideoResourceDto[] = response.data.items;
          return data;
       },
       queryKey: ['video'],
+      refetchOnWindowFocus: false,
    });
 
    const live = useMemo(

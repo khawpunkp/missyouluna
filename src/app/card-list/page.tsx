@@ -17,6 +17,7 @@ export default function CardListPage() {
          return data;
       },
       queryKey: ['card'],
+      refetchOnWindowFocus: false,
    });
 
    const scrollToTop = () => {
@@ -104,7 +105,7 @@ export default function CardListPage() {
                                     <img
                                        alt=''
                                        src={c.imgSrc}
-                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300'                                      
+                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300'
                                     />
                                  </picture>
                               ))}
