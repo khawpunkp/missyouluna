@@ -13,7 +13,7 @@ export default function FilterButton({
       <button
          type='button'
          onClick={onClick}
-         className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:bg-primary hover:border-white hover:text-white ${
+         className={`mobile:h-8 mobile:w-[31%] w-[24%] py-2 rounded-full border transition-all duration-300 hover:scale-[1.03] ${
             currentFilter === code
                ? 'bg-primary border-white text-white'
                : 'bg-white border-primary'
