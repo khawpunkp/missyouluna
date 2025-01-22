@@ -15,6 +15,7 @@ import SadJellyfish from '@/components/missyouluna/sadJellyfish';
 
 export default function MissYouLunaPage() {
    const [targetTime, setTargetTime] = useState<string>();
+   const [sadjellyfish, setSadjellyfish] = useState(false);
 
    const { data: resource, isFetching } = useQuery({
       queryFn: async () => {
@@ -81,9 +82,22 @@ export default function MissYouLunaPage() {
    }, [lastUpload]);
 
    return (
-      <div className='overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
+      <div className='relative overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
+         <button
+            type='button'
+            title=''
+            className='fixed bottom-6 left-6 rounded-full z-50 mobile:hidden'
+            onClick={() => setSadjellyfish((prev) => !prev)}
+            hidden={isFetching}
+         >
+            <img
+               src={'/img/sad-jellyfish.png'}
+               alt='sad-jellyfish'
+               className='w-8 hover:animate-pulse opacity-20 hover:opacity-100 !transition-all duration-300'
+            />
+         </button>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
-            {isFetching ? (
+            {isFetching || sadjellyfish ? (
                <SadJellyfish />
             ) : (
                <>

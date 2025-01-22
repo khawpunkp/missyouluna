@@ -8,7 +8,7 @@ export default function SadJellyfish() {
                className='w-16 animate-bounce'
             />
          </picture>
-         <p> sad jellyfish</p>
+         <p>sad jellyfish</p>
       </div>
    );
 }
