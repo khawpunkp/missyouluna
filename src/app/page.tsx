@@ -30,7 +30,7 @@ export default function Home() {
                   className={'max-h-[120px] mobile:w-full object-contain'}
                />
             </picture>
-            <p className='text-2xl mobile:text-xl text-center'>
+            <p className='text-2xl mobile:text-xl text-center overflow-auto'>
                LTX-022 aka. Lunatrix (ลูนาทริกซ์, ลูน่า)
                <br />
                Independent Vtuber, Content Creator
@@ -45,7 +45,7 @@ export default function Home() {
                      key={index}
                      target='_blank'
                      url={url}
-                     className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer !w-12 !h-12'
+                     className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer !w-12 !h-12 mobile:!w-8 mobile:!h-8'
                   />
                ))}
                <a
@@ -58,13 +58,13 @@ export default function Home() {
                      <img
                         alt='gank'
                         src='/img/gank.png'
-                        className='!w-12 !h-12 rounded-full'
+                        className='!w-12 !h-12 rounded-full mobile:!w-8 mobile:!h-8'
                      />
                   </picture>
                </a>
             </div>
             <div className='h-px w-full bg-white' />
-            <div className='flex w-full gap-6 mobile:flex-col mobile:gap-2'>
+            <div className='flex w-full gap-6 mobile:gap-4'>
                <a
                   href={'https://shop.line.me/@ltx022'}
                   target='_blank'
@@ -72,7 +72,8 @@ export default function Home() {
                   className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
                >
                   <ShoppingCartSimple size={24} weight='fill' />
-                  <p className='text-2xl mobile:text-xl'>LINE Shop</p>
+                  <p className='text-2xl flex mobile:hidden'>LINE Shop</p>
+                  <p className='text-xl hidden mobile:flex'>Shop</p>
                </a>
                <a
                   href={'https://tipme.in.th/lunatrix'}
@@ -81,7 +82,10 @@ export default function Home() {
                   className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
                >
                   <TipJar size={24} weight='fill' />
-                  <p className='text-2xl mobile:text-xl'>Donate via Tipme</p>
+                  <p className='text-2xl flex mobile:hidden'>
+                     Donate via Tipme
+                  </p>
+                  <p className='text-xl hidden mobile:flex'>Tipme</p>
                </a>
             </div>
          </div>
