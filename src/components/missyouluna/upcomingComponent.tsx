@@ -16,7 +16,7 @@ export default function UpcomingComponent({
          <p className='text-2xl mobile:text-xl align-bottom	'>
             <span>{'ในอีก '}</span>
             <span className='font-semibold'>
-               <TimerComponent targetTime={targetTime} />
+               <TimerComponent targetTime={targetTime} isCountdown/>
             </span>
          </p>
          <div
