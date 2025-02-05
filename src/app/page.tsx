@@ -9,11 +9,10 @@ import {
 
 import { socialUrls } from '@/const/social';
 import { SocialIcon } from 'react-social-icons';
-import { hover, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
    mainContainerVariants,
    childrenContainerVariants,
-   subContainerVariants,
 } from '@/const/animation';
 
 export default function Home() {
@@ -25,27 +24,22 @@ export default function Home() {
             animate='show'
             className='max-w-7xl flex gap-6 mobile:flex-col mobile:gap-4 items-center justify-center w-full text-primary '
          >
-            <motion.picture
+            <motion.img
                variants={childrenContainerVariants}
-               className='w-1/2 mobile:w-full'
-            >
-               <img
-                  alt='luna'
-                  src='/img/luna.png'
-                  className='max-h-[80vh] object-contain'
-               />
-            </motion.picture>
+               className='max-h-[80vh] object-contain w-1/2 mobile:w-full'
+               alt='luna'
+               src='/img/luna.png'
+            />
             <motion.div
                variants={childrenContainerVariants}
                className='flex flex-col gap-6 mobile:gap-4  items-center justify-center w-1/2 mobile:w-full'
             >
-               <motion.picture variants={childrenContainerVariants}>
-                  <img
-                     alt='logo'
-                     src='/img/official-pirate.png'
-                     className={'max-h-[120px] mobile:w-full object-contain'}
-                  />
-               </motion.picture>
+               <motion.img
+                  variants={childrenContainerVariants}
+                  alt='logo'
+                  src='/img/official-pirate.png'
+                  className={'max-h-[120px] mobile:w-full object-contain'}
+               />
                <motion.p
                   variants={childrenContainerVariants}
                   className='text-2xl mobile:text-xl text-center overflow-auto'

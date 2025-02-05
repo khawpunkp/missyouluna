@@ -3,7 +3,6 @@ import { Broadcast } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 import TimerComponent from './timerComponent';
 import { motion } from 'framer-motion';
-import { childrenContainerVariants } from '@/const/animation';
 
 export default function VideoCard({
    data,

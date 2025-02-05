@@ -1,4 +1,3 @@
-import { childrenContainerVariants } from '@/const/animation';
 import { XLogo } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
 

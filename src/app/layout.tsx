@@ -33,7 +33,9 @@ export default function RootLayout({
          <ReactQueryProvider>
             <body className='m-0 min-h-screen bg-[#FECFE7] flex flex-col'>
                <Navbar />
-               <div className='flex pt-16 mobile:pt-14 min-h-screen'>{children}</div>
+               <div className='flex pt-16 mobile:pt-14 min-h-screen'>
+                  {children}
+               </div>
             </body>
          </ReactQueryProvider>
       </html>

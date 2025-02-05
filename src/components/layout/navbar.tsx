@@ -53,14 +53,15 @@ function NavbarComponent({
          }`}
       >
          <div className='flex w-full max-w-7xl items-center justify-between'>
-            <Link className='hover:scale-[1.03] transition-all duration-300' href={'/'}>
+            <Link
+               className='hover:scale-[1.03] transition-all duration-300'
+               href={'/'}
+            >
                <picture>
                   <img
                      alt='logo'
                      src='/img/pirate-official.png'
-                     className={
-                        'h-[48px]'
-                     }
+                     className={'h-[48px]'}
                   />
                </picture>
             </Link>

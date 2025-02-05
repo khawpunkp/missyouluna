@@ -12,6 +12,7 @@ import { mainContainerVariants } from '@/const/animation';
 
 export default function CardListPage() {
    const [filter, setFilter] = useState<string>('');
+   const [loadedCount, setLoadedCount] = useState(0);
    const [isShowImage, setIsShowImage] = useState(false);
 
    const { data: cardListByRarity = [], isFetching } = useQuery({
@@ -28,18 +29,24 @@ export default function CardListPage() {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
    };
 
+   useEffect(() => {
+      if (loadedCount === 10) {
+         setIsShowImage(true);
+      }
+   }, [loadedCount]);
+
    return (
       <div className='relative w-full flex flex-col items-center text-primary p-4 mobile:px-3 mobile:pb-3'>
-         <img
-            alt=''
-            src={cardListByRarity[0]?.Card[9]?.imgSrc}
-            className='hidden'
-            onLoad={() =>
-               setTimeout(() => {
-                  setIsShowImage(true);
-               }, 500)
-            }
-         />
+         {cardListByRarity[0]?.Card.slice(0, 10).map((img, index) => (
+            <img
+               key={index}
+               className='hidden'
+               src={img.imgSrc}
+               alt={`Image ${index + 1}`}
+               onLoad={() => setLoadedCount((count) => count + 1)}
+            />
+         ))}
+
          {!isShowImage || isFetching ? (
             <LunaLoading />
          ) : (
@@ -119,24 +126,16 @@ export default function CardListPage() {
                            >{`${r.code} - ${r.title}`}</motion.p>
                            <div className='grid grid-cols-5 gap-5 mobile:grid-cols-3 mobile:gap-2'>
                               {r.Card?.map((c, index) => (
-                                 <motion.picture
+                                 <motion.img
                                     key={index}
                                     whileHover={{
                                        y: -8,
                                        transition: { duration: 0.3 },
                                     }}
-                                    initial={{ opacity: 0 }}
-                                    whileInView={{
-                                       opacity: 1,
-                                       transition: { duration: 0.75 },
-                                    }}
-                                 >
-                                    <img
-                                       alt=''
-                                       src={c.imgSrc}
-                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg'
-                                    />
-                                 </motion.picture>
+                                    alt={`${r.code} - ${c.runningNumber}`}
+                                    src={c.imgSrc}
+                                    className='card-shadow bg-white rounded-2xl mobile:rounded-lg'
+                                 />
                               ))}
                            </div>
                         </div>
