@@ -103,7 +103,7 @@ function MobileMenu({
                   animate={{ x: 0 }}
                   exit={{ x: '100vw' }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
-                  className='fixed left-0 top-0 flex h-screen w-full flex-col bg-white backdrop-filter backdrop-blur-sm mt-[55px] px-6 border-t-border border'
+                  className='fixed left-0 top-0 flex h-screen w-full flex-col bg-white backdrop-filter backdrop-blur-sm mt-[55px] px-4 border-t-border border'
                >
                   <div className='h-screen overflow-y-auto flex flex-col text-base text-primary'>
                      {menuPath.map((path, index) => (
@@ -112,7 +112,7 @@ function MobileMenu({
                               href={path.href}
                               className={`hover:scale-105 transition-all duration-500 min-w-[100px] py-4 text-foreground-primary items-center flex justify-between`}
                            >
-                              <p className='font-[500px]'>{path.title}</p>
+                              <p className='text-xl'>{path.title}</p>
                               <div className='p-2'>
                                  <ArrowRight size={24} />
                               </div>

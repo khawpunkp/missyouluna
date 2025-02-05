@@ -8,16 +8,16 @@ import Footer from '@/components/layout/footer';
 import LiveComponent from '@/components/missyouluna/liveComponent';
 import LastUploadComponent from '@/components/missyouluna/lastUploadComponent';
 import NotFoundComponent from '@/components/missyouluna/notFoundComponent';
-import TweetButton from '@/components/missyouluna/tweetButton';
 import UpcomingComponent from '@/components/missyouluna/upcomingComponent';
 import dayjs from 'dayjs';
 import SadJellyfish from '@/components/missyouluna/sadJellyfish';
-import { AnimatePresence, motion } from 'framer-motion';
 import { mainContainerVariants } from '@/const/animation';
+import { motion } from 'framer-motion';
 
 export default function MissYouLunaPage() {
    const [targetTime, setTargetTime] = useState<string>();
    const [sadjellyfish, setSadjellyfish] = useState(false);
+   const [isShowImage, setIsShowImage] = useState(false);
 
    const { data: resource, isFetching } = useQuery({
       queryFn: async () => {
@@ -99,7 +99,52 @@ export default function MissYouLunaPage() {
             />
          </button>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
-            {isFetching || sadjellyfish ? (
+            {live ? (
+               <img
+                  alt=''
+                  src={live.snippet.thumbnails.maxres.url}
+                  className='hidden'
+                  onLoad={() =>
+                     setTimeout(() => {
+                        setIsShowImage(true);
+                     }, 500)
+                  }
+               />
+            ) : upcoming ? (
+               <img
+                  alt=''
+                  src={upcoming.snippet.thumbnails.maxres.url}
+                  className='hidden'
+                  onLoad={() =>
+                     setTimeout(() => {
+                        setIsShowImage(true);
+                     }, 500)
+                  }
+               />
+            ) : lastUpload ? (
+               <img
+                  alt=''
+                  src={lastUpload.snippet.thumbnails.maxres.url}
+                  className='hidden'
+                  onLoad={() =>
+                     setTimeout(() => {
+                        setIsShowImage(true);
+                     }, 500)
+                  }
+               />
+            ) : (
+               <img
+                  alt=''
+                  src={'/img/sad-jellyfish.png'}
+                  className='hidden'
+                  onLoad={() =>
+                     setTimeout(() => {
+                        setIsShowImage(true);
+                     }, 500)
+                  }
+               />
+            )}
+            {isFetching || sadjellyfish || !isShowImage ? (
                <SadJellyfish />
             ) : (
                <motion.div
