@@ -2,6 +2,8 @@ import { VideoResourceDto } from '@/dto/dto';
 import { Broadcast } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 import TimerComponent from './timerComponent';
+import { motion } from 'framer-motion';
+import { childrenContainerVariants } from '@/const/animation';
 
 export default function VideoCard({
    data,
@@ -13,11 +15,15 @@ export default function VideoCard({
    isUpload?: boolean;
 }) {
    return (
-      <div
+      <motion.div
+         whileHover={{
+            scale: 1.05,
+            transition: { duration: 0.3 },
+         }}
          onClick={() =>
             window.open(`https://www.youtube.com/watch?v=${data.id}`)
          }
-         className='flex flex-col hover:cursor-pointer rounded-2xl bg-white max-w-[500px] w-full hover:scale-[1.03] transition-all duration-300 '
+         className='flex flex-col hover:cursor-pointer rounded-2xl bg-white max-w-[500px] w-full'
       >
          <div className='w-full h-fit p-2 pb-0 relative'>
             <picture>
@@ -61,6 +67,6 @@ export default function VideoCard({
                </p>
             )}
          </div>
-      </div>
+      </motion.div>
    );
 }

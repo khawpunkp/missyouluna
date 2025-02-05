@@ -1,5 +1,8 @@
 import { VideoResourceDto } from '@/dto/dto';
 import VideoCard from './videoCard';
+import TweetButton from './tweetButton';
+import { motion } from 'framer-motion';
+import { childrenContainerVariants } from '@/const/animation';
 
 export default function LiveComponent({
    data,
@@ -9,7 +12,10 @@ export default function LiveComponent({
    targetTime: string | undefined;
 }) {
    return (
-      <>
+      <motion.div
+         variants={childrenContainerVariants}
+         className='flex flex-col gap-4 justify-center items-center'
+      >
          <p className='text-2xl mobile:text-xl'>{'ลูน่าไลฟ์อยู่ที่'}</p>
          <VideoCard data={data} targetTime={targetTime} />
          <div
@@ -23,6 +29,7 @@ export default function LiveComponent({
             </picture>
             <p className='text-xl'>ไปดูดิ</p>
          </div>
-      </>
+         <TweetButton />
+      </motion.div>
    );
 }

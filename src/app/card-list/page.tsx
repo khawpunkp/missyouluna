@@ -7,6 +7,8 @@ import { CaretUp } from '@phosphor-icons/react';
 import { useQuery } from '@tanstack/react-query';
 import FilterButton from '@/components/cardlist/filterButton';
 import LunaLoading from '@/components/cardlist/lunaLoading';
+import { motion } from 'framer-motion';
+import { mainContainerVariants } from '@/const/animation';
 
 export default function CardListPage() {
    const [filter, setFilter] = useState<string>('');
@@ -30,7 +32,7 @@ export default function CardListPage() {
       <div className='relative w-full flex flex-col items-center text-primary p-4 mobile:px-3 mobile:pb-3'>
          <img
             alt=''
-            src={cardListByRarity[0]?.Card[0]?.imgSrc}
+            src={cardListByRarity[0]?.Card[9]?.imgSrc}
             className='hidden'
             onLoad={() =>
                setTimeout(() => {
@@ -38,22 +40,39 @@ export default function CardListPage() {
                }, 500)
             }
          />
-         <button
-            type='button'
-            title='scroll'
-            className='fixed bottom-6 right-6 p-3 mobile:p-2 text-3xl mobile:text-2xl rounded-full bg-primary/50 text-white z-50'
-            onClick={scrollToTop}
-         >
-            <CaretUp weight='fill' />
-         </button>
-
-         <p className='text-7xl mb-6 mobile:text-5xl'>LTX Card List</p>
-
          {!isShowImage || isFetching ? (
             <LunaLoading />
          ) : (
             <>
-               <div className='flex flex-wrap gap-2 mb-6 w-full mobile:max-w-[90vw] max-w-[1000px] text-xl mobile:text-xs items-center justify-center'>
+               <motion.button
+                  variants={mainContainerVariants}
+                  initial='hidden'
+                  animate='show'
+                  whileHover={{
+                     scale: 1.05,
+                     transition: { duration: 0.3 },
+                  }}
+                  type='button'
+                  title='scroll'
+                  className='fixed bottom-6 right-6 p-3 mobile:p-2 text-3xl mobile:text-2xl rounded-full bg-primary/50 text-white z-50'
+                  onClick={scrollToTop}
+               >
+                  <CaretUp weight='fill' />
+               </motion.button>
+               <motion.p
+                  variants={mainContainerVariants}
+                  initial='hidden'
+                  animate='show'
+                  className='text-7xl mb-6 mobile:text-5xl'
+               >
+                  LTX Card List
+               </motion.p>
+               <motion.div
+                  variants={mainContainerVariants}
+                  initial='hidden'
+                  animate='show'
+                  className='flex flex-wrap gap-x-3 gap-y-2 mb-6 w-full max-w-5xl text-xl mobile:text-xs items-center justify-center'
+               >
                   {cardListByRarity.length > 1 && (
                      <FilterButton
                         currentFilter={filter}
@@ -78,27 +97,51 @@ export default function CardListPage() {
                         <span>{r.title}</span>
                      </FilterButton>
                   ))}
-               </div>
-               <div className='flex flex-col gap-4 bg-white max-w-[1320px] p-8 mobile:p-4 rounded-2xl'>
+               </motion.div>
+               <motion.div
+                  variants={mainContainerVariants}
+                  initial='hidden'
+                  animate='show'
+                  className='flex flex-col gap-4 bg-white max-w-7xl p-8 mobile:p-4 rounded-2xl'
+               >
                   {cardListByRarity
                      .filter((r) => r.code === filter || filter === '')
                      .map((r, index) => (
                         <div key={index} className='flex flex-col gap-4'>
-                           <p className='text-2xl'>{`${r.code} - ${r.title}`}</p>
+                           <motion.p
+                              initial={{ opacity: 0 }}
+                              whileInView={{
+                                 opacity: 1,
+                                 transition: { duration: 0.75 },
+                              }}
+                              viewport={{ once: true }}
+                              className='text-2xl'
+                           >{`${r.code} - ${r.title}`}</motion.p>
                            <div className='grid grid-cols-5 gap-5 mobile:grid-cols-3 mobile:gap-2'>
                               {r.Card?.map((c, index) => (
-                                 <picture key={index}>
+                                 <motion.picture
+                                    key={index}
+                                    whileHover={{
+                                       y: -8,
+                                       transition: { duration: 0.3 },
+                                    }}
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{
+                                       opacity: 1,
+                                       transition: { duration: 0.75 },
+                                    }}
+                                 >
                                     <img
                                        alt=''
                                        src={c.imgSrc}
-                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg hover:scale-[1.03] transition-all duration-300'
+                                       className='card-shadow bg-white rounded-2xl mobile:rounded-lg'
                                     />
-                                 </picture>
+                                 </motion.picture>
                               ))}
                            </div>
                         </div>
                      ))}
-               </div>
+               </motion.div>
             </>
          )}
       </div>

@@ -1,94 +1,202 @@
 'use client';
 
-import { ShoppingCartSimple, TipJar } from '@phosphor-icons/react';
+import {
+   Info,
+   PaintBrush,
+   ShoppingCartSimple,
+   TipJar,
+} from '@phosphor-icons/react';
 
 import { socialUrls } from '@/const/social';
 import { SocialIcon } from 'react-social-icons';
+import { hover, motion } from 'framer-motion';
+import {
+   mainContainerVariants,
+   childrenContainerVariants,
+   subContainerVariants,
+} from '@/const/animation';
 
 export default function Home() {
    return (
-      <div className='flex gap-6 mobile:flex-col items-center justify-center w-full text-primary p-4'>
-         <a
-            href={'https://www.youtube.com/c/LunatrixCh?sub_confirmation=1'}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer'
+      <motion.div className='p-4 overflow-hidden w-full flex items-center justify-center'>
+         <motion.div
+            variants={mainContainerVariants}
+            initial='hidden'
+            animate='show'
+            className='max-w-7xl flex gap-6 mobile:flex-col mobile:gap-4 items-center justify-center w-full text-primary '
          >
-            <picture>
+            <motion.picture
+               variants={childrenContainerVariants}
+               className='w-1/2 mobile:w-full'
+            >
                <img
                   alt='luna'
                   src='/img/luna.png'
-                  className='max-h-[80vh] max-w-[40vw] mobile:max-w-[80vw] object-contain'
+                  className='max-h-[80vh] object-contain'
                />
-            </picture>
-         </a>
-         <div className='flex flex-col gap-6 items-center justify-center'>
-            <picture>
-               <img
-                  alt='logo'
-                  src='/img/official-pirate.png'
-                  className={'max-h-[120px] mobile:w-full object-contain'}
-               />
-            </picture>
-            <p className='text-2xl mobile:text-xl text-center overflow-auto'>
-               LTX-022 aka. Lunatrix (ลูนาทริกซ์, ลูน่า)
-               <br />
-               Independent Vtuber, Content Creator
-            </p>
-            <div className='h-px w-full bg-white' />
-            <p className='text-2xl mobile:text-xl text-center'>
-               ติดตามลูน่าได้ทาง Social Media ต่าง ๆ<br /> ด้านล่างนี้เลย แอ้!
-            </p>
-            <div className='flex flex-wrap gap-3 mobile:gap-2 items-center justify-center text-[32px]'>
-               {socialUrls.map((url, index) => (
-                  <SocialIcon
-                     key={index}
-                     target='_blank'
-                     url={url}
-                     className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer !w-12 !h-12 mobile:!w-8 mobile:!h-8'
+            </motion.picture>
+            <motion.div
+               variants={childrenContainerVariants}
+               className='flex flex-col gap-6 mobile:gap-4  items-center justify-center w-1/2 mobile:w-full'
+            >
+               <motion.picture variants={childrenContainerVariants}>
+                  <img
+                     alt='logo'
+                     src='/img/official-pirate.png'
+                     className={'max-h-[120px] mobile:w-full object-contain'}
                   />
-               ))}
-               <a
-                  href={'https://ganknow.com/lunatrix'}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full'
+               </motion.picture>
+               <motion.p
+                  variants={childrenContainerVariants}
+                  className='text-2xl mobile:text-xl text-center overflow-auto'
                >
-                  <picture>
-                     <img
-                        alt='gank'
-                        src='/img/gank.png'
-                        className='!w-12 !h-12 rounded-full mobile:!w-8 mobile:!h-8'
-                     />
-                  </picture>
-               </a>
-            </div>
-            <div className='h-px w-full bg-white' />
-            <div className='flex w-full gap-6 mobile:gap-4'>
-               <a
-                  href={'https://shop.line.me/@ltx022'}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
+                  LTX022, ลูนาทริกซ์, ลูน่า
+                  <br />
+                  Independent Vtuber, Content Creator
+               </motion.p>
+               <motion.div className='h-px w-full bg-white' />
+               <motion.p
+                  variants={childrenContainerVariants}
+                  className='text-2xl mobile:text-xl text-center'
                >
-                  <ShoppingCartSimple size={24} weight='fill' />
-                  <p className='text-2xl flex mobile:hidden'>LINE Shop</p>
-                  <p className='text-xl hidden mobile:flex'>Shop</p>
-               </a>
-               <a
-                  href={'https://tipme.in.th/lunatrix'}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
+                  ติดตามลูน่าได้ทาง Social Media ต่าง ๆ<br /> ด้านล่างนี้เลย
+                  แอ้!
+               </motion.p>
+               <motion.div
+                  variants={{
+                     hidden: { opacity: 0, scale: 0 },
+                     show: {
+                        opacity: 1,
+                        scale: 1,
+                        transition: {
+                           duration: 0.5,
+                           staggerChildren: 0.05,
+                           scale: {
+                              type: 'spring',
+                              visualDuration: 0.5,
+                              bounce: 0.5,
+                           },
+                        },
+                     },
+                  }}
+                  className='flex flex-wrap gap-3 mobile:gap-2 items-center justify-center text-[32px]'
                >
-                  <TipJar size={24} weight='fill' />
-                  <p className='text-2xl flex mobile:hidden'>
-                     Donate via Tipme
-                  </p>
-                  <p className='text-xl hidden mobile:flex'>Tipme</p>
-               </a>
-            </div>
-         </div>
-      </div>
+                  {socialUrls.map((url, index) => (
+                     <motion.div
+                        key={index}
+                        variants={childrenContainerVariants}
+                        whileHover={{
+                           scale: 1.05,
+                           transition: { duration: 0.3 },
+                        }}
+                        className='hover:cursor-pointer !w-12 !h-12 mobile:!w-8 mobile:!h-8 flex items-center justify-center'
+                     >
+                        <SocialIcon
+                           target='_blank'
+                           url={url}
+                           className='!h-full !w-full transition-all'
+                        />
+                     </motion.div>
+                  ))}
+                  <motion.a
+                     variants={childrenContainerVariants}
+                     whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.3 },
+                     }}
+                     href={'https://ganknow.com/lunatrix'}
+                     target='_blank'
+                     rel='noopener noreferrer'
+                     className='hover:cursor-pointer rounded-full'
+                  >
+                     <picture>
+                        <img
+                           alt='gank'
+                           src='/img/gank.png'
+                           className='!w-12 !h-12 rounded-full mobile:!w-8 mobile:!h-8'
+                        />
+                     </picture>
+                  </motion.a>
+               </motion.div>
+               <motion.div className='h-px w-full bg-white' />
+               <motion.div
+                  variants={{
+                     hidden: { opacity: 0, scale: 0 },
+                     show: {
+                        opacity: 1,
+                        scale: 1,
+                        transition: {
+                           duration: 0.5,
+                           staggerChildren: 0.2,
+                           scale: {
+                              type: 'spring',
+                              visualDuration: 0.5,
+                              bounce: 0.5,
+                           },
+                        },
+                     },
+                  }}
+                  className='grid grid-cols-2 mobile:grid-cols-1 w-full gap-6 mobile:gap-4'
+               >
+                  <motion.a
+                     variants={childrenContainerVariants}
+                     whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.3 },
+                     }}
+                     href={'https://shop.line.me/@ltx022'}
+                     target='_blank'
+                     rel='noopener noreferrer'
+                     className='hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
+                  >
+                     <ShoppingCartSimple size={24} weight='fill' />
+                     <p className='text-xl flex'>LINE Shop</p>
+                  </motion.a>
+                  <motion.a
+                     variants={childrenContainerVariants}
+                     whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.3 },
+                     }}
+                     href={'https://tipme.in.th/lunatrix'}
+                     target='_blank'
+                     rel='noopener noreferrer'
+                     className='hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
+                  >
+                     <TipJar size={24} weight='fill' />
+                     <p className='text-xl'>Donate via Tipme</p>
+                  </motion.a>
+                  <motion.a
+                     variants={childrenContainerVariants}
+                     whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.3 },
+                     }}
+                     href={'https://ltx022.carrd.co/#guide'}
+                     target='_blank'
+                     rel='noopener noreferrer'
+                     className='hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
+                  >
+                     <Info size={24} weight='fill' />
+                     <p className='text-xl'>Fan Work Guidelines</p>
+                  </motion.a>
+                  <motion.a
+                     variants={childrenContainerVariants}
+                     whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.3 },
+                     }}
+                     href={'https://ltx022.carrd.co/#char'}
+                     target='_blank'
+                     rel='noopener noreferrer'
+                     className='hover:cursor-pointer rounded-full flex justify-between bg-tertiary text-white px-4 py-2 items-center w-full'
+                  >
+                     <PaintBrush size={24} weight='fill' />
+                     <p className='text-xl'>Character Ref. Sheet</p>
+                  </motion.a>
+               </motion.div>
+            </motion.div>
+         </motion.div>
+      </motion.div>
    );
 }

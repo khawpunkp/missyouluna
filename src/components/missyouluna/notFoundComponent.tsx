@@ -1,6 +1,13 @@
+import { childrenContainerVariants } from '@/const/animation';
+import { motion } from 'framer-motion';
+import TweetButton from './tweetButton';
+
 export default function NotFoundComponent() {
    return (
-      <>
+      <motion.div
+         variants={childrenContainerVariants}
+         className='flex flex-col gap-4 justify-center items-center'
+      >
          <p className='text-2xl'>หาวิดีโอไม่เจอ</p>
          <picture>
             <img
@@ -9,6 +16,7 @@ export default function NotFoundComponent() {
                alt='sad-jellyfish'
             />
          </picture>
-      </>
+         <TweetButton />
+      </motion.div>
    );
 }

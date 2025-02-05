@@ -1,6 +1,9 @@
 import { VideoResourceDto } from '@/dto/dto';
 import VideoCard from './videoCard';
 import TimerComponent from './timerComponent';
+import TweetButton from './tweetButton';
+import { motion } from 'framer-motion';
+import { childrenContainerVariants } from '@/const/animation';
 
 export default function UpcomingComponent({
    data,
@@ -10,26 +13,32 @@ export default function UpcomingComponent({
    targetTime: string | undefined;
 }) {
    return (
-      <>
-         <p className='text-2xl mobile:text-xl'>{'แล้วลูน่าจะกลับมา'}</p>
+      <motion.div
+         variants={childrenContainerVariants}
+         className='flex flex-col gap-4 justify-center items-center'
+      >
+         <motion.p className='text-2xl mobile:text-xl'>
+            {'แล้วลูน่าจะกลับมา'}
+         </motion.p>
          <VideoCard data={data} targetTime={targetTime} />
-         <p className='text-2xl mobile:text-xl align-bottom	'>
+         <motion.p className='text-2xl mobile:text-xl align-bottom	'>
             <span>{'ในอีก '}</span>
             <span className='font-semibold'>
-               <TimerComponent targetTime={targetTime} isCountdown/>
+               <TimerComponent targetTime={targetTime} isCountdown />
             </span>
-         </p>
-         <div
+         </motion.p>
+         <motion.a
             className='flex flex-col items-center gap-1 hover:cursor-pointer'
-            onClick={() =>
-               window.open(`https://www.youtube.com/watch?v=${data.id}`)
-            }
+            href={`https://www.youtube.com/watch?v=${data.id}`}
+            target='_blank'
+            rel='noopener noreferrer'
          >
             <picture>
                <img src='/img/wait.webp' alt='wait' />
             </picture>
             <p className='text-xl'>ไปรอดิ</p>
-         </div>
-      </>
+         </motion.a>
+         <TweetButton />
+      </motion.div>
    );
 }

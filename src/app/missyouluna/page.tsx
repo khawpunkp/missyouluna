@@ -12,6 +12,8 @@ import TweetButton from '@/components/missyouluna/tweetButton';
 import UpcomingComponent from '@/components/missyouluna/upcomingComponent';
 import dayjs from 'dayjs';
 import SadJellyfish from '@/components/missyouluna/sadJellyfish';
+import { AnimatePresence, motion } from 'framer-motion';
+import { mainContainerVariants } from '@/const/animation';
 
 export default function MissYouLunaPage() {
    const [targetTime, setTargetTime] = useState<string>();
@@ -100,7 +102,12 @@ export default function MissYouLunaPage() {
             {isFetching || sadjellyfish ? (
                <SadJellyfish />
             ) : (
-               <>
+               <motion.div
+                  variants={mainContainerVariants}
+                  initial='hidden'
+                  animate='show'
+                  className='flex flex-col gap-4 items-center'
+               >
                   {live ? (
                      <LiveComponent data={live} targetTime={targetTime} />
                   ) : upcoming ? (
@@ -116,8 +123,7 @@ export default function MissYouLunaPage() {
                   ) : (
                      <NotFoundComponent />
                   )}
-                  <TweetButton />
-               </>
+               </motion.div>
             )}
          </div>
          <Footer />

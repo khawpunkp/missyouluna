@@ -1,6 +1,15 @@
+import { motion } from 'framer-motion';
 export default function SadJellyfish() {
    return (
-      <div className='flex flex-col gap-2 items-center justify-center'>
+      <motion.div
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 1 }}
+         transition={{
+            duration: 0.5,
+            ease: 'easeOut',
+         }}
+         className='flex flex-col gap-2 items-center justify-center'
+      >
          <picture>
             <img
                src={'/img/sad-jellyfish.png'}
@@ -9,6 +18,6 @@ export default function SadJellyfish() {
             />
          </picture>
          <p>sad jellyfish</p>
-      </div>
+      </motion.div>
    );
 }
