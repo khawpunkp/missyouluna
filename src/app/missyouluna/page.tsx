@@ -39,9 +39,15 @@ export default function MissYouLunaPage() {
 
    const upcoming = useMemo(
       () =>
-         resource?.find(
-            (stream) => stream.snippet.liveBroadcastContent === 'upcoming',
-         ),
+         resource
+            ?.filter(
+               (stream) => stream.snippet.liveBroadcastContent === 'upcoming',
+            )
+            .sort((a, b) =>
+               dayjs(a?.liveStreamingDetails?.scheduledStartTime).diff(
+                  dayjs(b?.liveStreamingDetails?.scheduledStartTime),
+               ),
+            )[0],
       [resource],
    );
 
