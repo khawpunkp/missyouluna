@@ -29,7 +29,7 @@ export const childrenContainerVariants: Variants = {
       transition: {
          duration: 0.5,
          staggerChildren: 0.2,
-         scale: { type: 'spring', visualDuration: 0.5, bounce: 0.4 },
+         scale: { type: 'spring', visualDuration: 0.5, bounce: 0.3 },
       },
    },
 };

@@ -50,7 +50,22 @@ export default function Home() {
                   className='max-w-7xl flex gap-8 mobile:flex-col mobile:gap-4 items-center justify-center w-full text-primary '
                >
                   <motion.img
-                     variants={childrenContainerVariants}
+                     variants={{
+                        hidden: { opacity: 0, scale: 0 },
+                        show: {
+                           opacity: 1,
+                           scale: 1,
+                           transition: {
+                              duration: 0.5,
+                              staggerChildren: 0.2,
+                              scale: {
+                                 type: 'spring',
+                                 visualDuration: 0.5,
+                                 bounce: 0.5,
+                              },
+                           },
+                        },
+                     }}
                      className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl'
                      alt='luna'
                      src={
@@ -103,7 +118,7 @@ export default function Home() {
                                  scale: {
                                     type: 'spring',
                                     visualDuration: 0.5,
-                                    bounce: 0.5,
+                                    bounce: 0.3,
                                  },
                               },
                            },
@@ -160,7 +175,7 @@ export default function Home() {
                                  scale: {
                                     type: 'spring',
                                     visualDuration: 0.5,
-                                    bounce: 0.5,
+                                    bounce: 0.3,
                                  },
                               },
                            },
