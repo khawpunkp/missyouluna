@@ -9,16 +9,16 @@ import FilterButton from '@/components/cardlist/filterButton';
 import LunaLoading from '@/components/cardlist/lunaLoading';
 import { motion } from 'framer-motion';
 import { mainContainerVariants } from '@/const/animation';
+import { preloadImages } from '@/utils/utils';
 
 export default function CardListPage() {
    const [filter, setFilter] = useState<string>('');
-   const [loadedCount, setLoadedCount] = useState(0);
-   const [isShowImage, setIsShowImage] = useState(false);
 
    const { data: cardListByRarity = [], isFetching } = useQuery({
       queryFn: async () => {
          const response = await getCardList();
          const data: RarityResourceDto[] = response.data;
+         preloadImages(data[0].Card.map((e) => e.imgSrc));
          return data;
       },
       queryKey: ['card'],
@@ -29,25 +29,9 @@ export default function CardListPage() {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
    };
 
-   useEffect(() => {
-      if (loadedCount === 10) {
-         setIsShowImage(true);
-      }
-   }, [loadedCount]);
-
    return (
       <div className='relative w-full flex flex-col items-center text-primary p-4 mobile:px-3 mobile:pb-3'>
-         {cardListByRarity[0]?.Card.slice(0, 10).map((img, index) => (
-            <img
-               key={index}
-               className='hidden'
-               src={img.imgSrc}
-               alt={`Image ${index + 1}`}
-               onLoad={() => setLoadedCount((count) => count + 1)}
-            />
-         ))}
-
-         {!isShowImage || isFetching ? (
+         {isFetching ? (
             <LunaLoading />
          ) : (
             <>

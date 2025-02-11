@@ -35,3 +35,9 @@ export type RarityResourceDto = {
    title: string;
    Card: { id: number; runningNumber: number; imgSrc: string }[];
 };
+
+export type HomeImage = {
+   id: number;
+   imgSrc: string;
+   currentEvent: false;
+};

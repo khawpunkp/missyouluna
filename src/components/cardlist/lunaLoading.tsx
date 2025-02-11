@@ -15,7 +15,7 @@ export default function LunaLoading() {
             <img
                alt='loading'
                src='/img/luna_fast.png'
-               className='animate-reverse-spin h-32'
+               className='animate-reverse-spin h-24'
             />
          </picture>
       </motion.div>

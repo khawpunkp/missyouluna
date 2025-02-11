@@ -19,3 +19,13 @@ export const getCardList = async (): Promise<AxiosResponse> => {
       throw error;
    }
 };
+
+export const getHomeImage = async (): Promise<AxiosResponse> => {
+   try {
+      const response = await axios.get(apiPath + '/home-img');
+      return response;
+   } catch (error: any) {
+      throw error;
+   }
+};
+
