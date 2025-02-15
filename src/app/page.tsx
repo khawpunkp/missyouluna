@@ -233,6 +233,14 @@ export default function Home() {
                </motion.div>
             </motion.div>
          </motion.div>
+         <motion.p
+            variants={mainContainerVariants}
+            initial='hidden'
+            animate='show'
+            className='text-primary/30 fixed bottom-10'
+         >
+            หวัดดียูทูป จาก ขป.
+         </motion.p>
       </motion.div>
    );
 }
