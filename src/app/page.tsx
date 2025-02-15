@@ -68,7 +68,7 @@ export default function Home() {
                className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl hover:cursor-pointer'
                alt='luna'
                src={
-                  imgIndex === -1
+                  imgIndex === -1 && isFetching
                      ? '/img/luna.png'
                      : homeImage?.currentEvent
                      ? homeImage.currentEvent.imgSrc
