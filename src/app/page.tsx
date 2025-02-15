@@ -22,14 +22,13 @@ import { preloadImages } from '@/utils/utils';
 import LunaLoading from '@/components/cardlist/lunaLoading';
 
 export default function Home() {
-   const [imgIndex, setImgIndex] = useState<number>(0);
+   const [imgIndex, setImgIndex] = useState<number>(-1);
 
    const { data: homeImage, isFetching } = useQuery({
       queryFn: async () => {
          const response = await getHomeImage();
          const data: HomeImage[] = response.data;
          preloadImages(data.map((e) => e.imgSrc));
-         setImgIndex(Math.floor(Math.random() * data.length));
          const currentEvent = data.find((e) => e.currentEvent);
          return { list: data, currentEvent };
       },
@@ -62,9 +61,19 @@ export default function Home() {
                      },
                   },
                }}
-               className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl'
+               whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.3 },
+               }}
+               className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl hover:cursor-pointer'
                alt='luna'
-               src={'/img/valentine.png'}
+               src={
+                  imgIndex === -1
+                     ? '/img/luna.png'
+                     : homeImage?.currentEvent
+                     ? homeImage.currentEvent.imgSrc
+                     : homeImage?.list[imgIndex].imgSrc
+               }
                onClick={() =>
                   setImgIndex(
                      (prevIndex) =>
