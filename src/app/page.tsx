@@ -29,8 +29,7 @@ export default function Home() {
          const response = await getHomeImage();
          const data: HomeImage[] = response.data;
          preloadImages(data.map((e) => e.imgSrc));
-         const currentEvent = data.find((e) => e.currentEvent);
-         return { list: data, currentEvent };
+         return data;
       },
       queryKey: ['img'],
       refetchOnWindowFocus: false,
@@ -70,15 +69,13 @@ export default function Home() {
                src={
                   imgIndex === -1
                      ? '/img/luna.png'
-                     : homeImage?.currentEvent
-                     ? homeImage.currentEvent.imgSrc
-                     : homeImage?.list[imgIndex].imgSrc
+                     : homeImage?.[imgIndex].imgSrc
                }
                onClick={() => {
                   if (!isFetching)
                      setImgIndex(
                         (prevIndex) =>
-                           (prevIndex + 1) % (homeImage?.list.length ?? 0),
+                           (prevIndex + 1) % (homeImage?.length ?? 0),
                      );
                }}
             />
