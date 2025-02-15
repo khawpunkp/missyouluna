@@ -68,18 +68,19 @@ export default function Home() {
                className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl hover:cursor-pointer'
                alt='luna'
                src={
-                  imgIndex === -1 && isFetching
+                  imgIndex === -1
                      ? '/img/luna.png'
                      : homeImage?.currentEvent
                      ? homeImage.currentEvent.imgSrc
                      : homeImage?.list[imgIndex].imgSrc
                }
-               onClick={() =>
-                  setImgIndex(
-                     (prevIndex) =>
-                        (prevIndex + 1) % (homeImage?.list.length ?? 0),
-                  )
-               }
+               onClick={() => {
+                  if (!isFetching)
+                     setImgIndex(
+                        (prevIndex) =>
+                           (prevIndex + 1) % (homeImage?.list.length ?? 0),
+                     );
+               }}
             />
             <motion.div
                variants={childrenContainerVariants}
