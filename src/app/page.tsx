@@ -59,22 +59,17 @@ export default function Home() {
                      },
                   },
                }}
-               whileHover={{
-                  scale: 1.03,
-                  transition: { duration: 0.3 },
-               }}
-               className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl hover:cursor-pointer aspect-square flex items-center justify-center'
+               className='max-h-[80vh] object-contain w-1/2 mobile:w-full hover:cursor-pointer aspect-square flex items-center justify-center'
                onClick={() => {
                   if (!isFetching)
                      setImgIndex(
-                        (prevIndex) =>
-                           (prevIndex + 1) % (homeImage?.length ?? 0),
+                        Math.floor(Math.random() * (homeImage?.length ?? 0)),
                      );
                }}
             >
                <img
                   alt='luna'
-                  className='rounded-2xl'
+                  className='h-full object-contain'
                   src={
                      imgIndex === -1
                         ? '/img/luna.png'
@@ -120,7 +115,7 @@ export default function Home() {
                            scale: {
                               type: 'spring',
                               visualDuration: 0.5,
-                              bounce: 0.3,
+                              bounce: 0.5,
                            },
                         },
                      },
@@ -177,7 +172,7 @@ export default function Home() {
                            scale: {
                               type: 'spring',
                               visualDuration: 0.5,
-                              bounce: 0.3,
+                              bounce: 0.5,
                            },
                         },
                      },
