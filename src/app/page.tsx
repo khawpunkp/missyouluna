@@ -19,7 +19,6 @@ import { getHomeImage } from '@/api/api';
 import { HomeImage } from '@/dto/dto';
 import { useState } from 'react';
 import { preloadImages } from '@/utils/utils';
-import LunaLoading from '@/components/cardlist/lunaLoading';
 
 export default function Home() {
    const [imgIndex, setImgIndex] = useState<number>(-1);
@@ -43,7 +42,7 @@ export default function Home() {
             animate='show'
             className='max-w-7xl flex gap-8 mobile:flex-col mobile:gap-4 items-center justify-center w-full text-primary '
          >
-            <motion.img
+            <motion.div
                variants={{
                   hidden: { opacity: 0, scale: 0 },
                   show: {
@@ -61,16 +60,10 @@ export default function Home() {
                   },
                }}
                whileHover={{
-                  scale: 1.05,
+                  scale: 1.03,
                   transition: { duration: 0.3 },
                }}
-               className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl hover:cursor-pointer'
-               alt='luna'
-               src={
-                  imgIndex === -1
-                     ? '/img/luna.png'
-                     : homeImage?.[imgIndex].imgSrc
-               }
+               className='max-h-[80vh] object-contain w-1/2 mobile:w-full rounded-2xl hover:cursor-pointer aspect-square flex items-center justify-center'
                onClick={() => {
                   if (!isFetching)
                      setImgIndex(
@@ -78,7 +71,17 @@ export default function Home() {
                            (prevIndex + 1) % (homeImage?.length ?? 0),
                      );
                }}
-            />
+            >
+               <img
+                  alt='luna'
+                  className='rounded-2xl'
+                  src={
+                     imgIndex === -1
+                        ? '/img/luna.png'
+                        : homeImage?.[imgIndex].imgSrc
+                  }
+               />
+            </motion.div>
             <motion.div
                variants={childrenContainerVariants}
                className='flex flex-col gap-6 mobile:gap-4  items-center justify-center w-1/2 mobile:w-full'
@@ -240,14 +243,6 @@ export default function Home() {
                </motion.div>
             </motion.div>
          </motion.div>
-         <motion.p
-            variants={mainContainerVariants}
-            initial='hidden'
-            animate='show'
-            className='text-primary/30 fixed bottom-10'
-         >
-            หวัดดียูทูป จาก ขป.
-         </motion.p>
       </motion.div>
    );
 }

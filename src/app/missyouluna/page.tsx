@@ -13,33 +13,20 @@ import dayjs from 'dayjs';
 import SadJellyfish from '@/components/missyouluna/sadJellyfish';
 import { mainContainerVariants } from '@/const/animation';
 import { motion } from 'framer-motion';
+import { preloadImages } from '@/utils/utils';
 
 export default function MissYouLunaPage() {
    const [targetTime, setTargetTime] = useState<string>();
    const [sadjellyfish, setSadjellyfish] = useState(false);
-   const [isShowImage, setIsShowImage] = useState(false);
 
    const { data: resource, isFetching } = useQuery({
       queryFn: async () => {
          const response = await getVideos();
          const data: VideoResourceDto[] = response.data.items;
-         return data;
-      },
-      queryKey: ['video'],
-      refetchOnWindowFocus: false,
-   });
-
-   const live = useMemo(
-      () =>
-         resource?.find(
+         const live = data?.find(
             (stream) => stream.snippet.liveBroadcastContent === 'live',
-         ),
-      [resource],
-   );
-
-   const upcoming = useMemo(
-      () =>
-         resource
+         );
+         const upcoming = data
             ?.filter(
                (stream) => stream.snippet.liveBroadcastContent === 'upcoming',
             )
@@ -47,13 +34,9 @@ export default function MissYouLunaPage() {
                dayjs(a?.liveStreamingDetails?.scheduledStartTime).diff(
                   dayjs(b?.liveStreamingDetails?.scheduledStartTime),
                ),
-            )[0],
-      [resource],
-   );
+            )[0];
 
-   const lastUpload = useMemo(
-      () =>
-         resource
+         const lastUpload = data
             ?.filter(
                (stream) =>
                   dayjs(stream.snippet.publishedAt) < dayjs() &&
@@ -61,33 +44,34 @@ export default function MissYouLunaPage() {
             )
             .sort((a, b) =>
                dayjs(b.snippet.publishedAt).diff(dayjs(a.snippet.publishedAt)),
-            )[0],
-      [resource],
-   );
+            )[0];
+         if (live) preloadImages([live.snippet.thumbnails.maxres.url]);
+         if (upcoming) preloadImages([upcoming.snippet.thumbnails.maxres.url]);
+         if (lastUpload) preloadImages([lastUpload.snippet.thumbnails.maxres.url]);
+         return { live, upcoming, lastUpload };
+      },
+      queryKey: ['video'],
+      refetchOnWindowFocus: false,
+   });
 
    useEffect(() => {
-      if (live)
+      if (resource?.live)
          setTargetTime(
-            live.liveStreamingDetails?.actualStartTime ?? dayjs().toISOString(),
-         );
-   }, [live]);
-
-   useEffect(() => {
-      if (!live && upcoming)
-         setTargetTime(
-            upcoming?.liveStreamingDetails?.scheduledStartTime ??
+            resource?.live.liveStreamingDetails?.actualStartTime ??
                dayjs().toISOString(),
          );
-   }, [upcoming]);
-
-   useEffect(() => {
-      if (!live && !upcoming && lastUpload) {
-         const time = lastUpload?.liveStreamingDetails
-            ? lastUpload?.liveStreamingDetails.actualStartTime
-            : lastUpload.snippet.publishedAt;
+      else if (resource?.upcoming)
+         setTargetTime(
+            resource?.upcoming.liveStreamingDetails?.scheduledStartTime ??
+               dayjs().toISOString(),
+         );
+      else if (resource?.lastUpload) {
+         const time = resource?.lastUpload.liveStreamingDetails
+            ? resource?.lastUpload.liveStreamingDetails.actualStartTime
+            : resource?.lastUpload.snippet.publishedAt;
          setTargetTime(time ?? dayjs().toISOString());
       }
-   }, [lastUpload]);
+   }, [resource]);
 
    return (
       <div className='relative overflow-hidden w-full flex flex-col gap-4 justify-between items-center text-primary mobile:overflow-auto mobile:p-4 py-4'>
@@ -105,52 +89,7 @@ export default function MissYouLunaPage() {
             />
          </button>
          <div className='flex flex-col gap-4 justify-center items-center w-full h-full '>
-            {live ? (
-               <img
-                  alt=''
-                  src={live.snippet.thumbnails.maxres.url}
-                  className='hidden'
-                  onLoad={() =>
-                     setTimeout(() => {
-                        setIsShowImage(true);
-                     }, 500)
-                  }
-               />
-            ) : upcoming ? (
-               <img
-                  alt=''
-                  src={upcoming.snippet.thumbnails.maxres.url}
-                  className='hidden'
-                  onLoad={() =>
-                     setTimeout(() => {
-                        setIsShowImage(true);
-                     }, 500)
-                  }
-               />
-            ) : lastUpload ? (
-               <img
-                  alt=''
-                  src={lastUpload.snippet.thumbnails.maxres.url}
-                  className='hidden'
-                  onLoad={() =>
-                     setTimeout(() => {
-                        setIsShowImage(true);
-                     }, 500)
-                  }
-               />
-            ) : (
-               <img
-                  alt=''
-                  src={'/img/sad-jellyfish.png'}
-                  className='hidden'
-                  onLoad={() =>
-                     setTimeout(() => {
-                        setIsShowImage(true);
-                     }, 500)
-                  }
-               />
-            )}
-            {isFetching || sadjellyfish || !isShowImage ? (
+            {isFetching || sadjellyfish ? (
                <SadJellyfish />
             ) : (
                <motion.div
@@ -159,16 +98,19 @@ export default function MissYouLunaPage() {
                   animate='show'
                   className='flex flex-col gap-4 items-center'
                >
-                  {live ? (
-                     <LiveComponent data={live} targetTime={targetTime} />
-                  ) : upcoming ? (
-                     <UpcomingComponent
-                        data={upcoming}
+                  {resource?.live ? (
+                     <LiveComponent
+                        data={resource?.live}
                         targetTime={targetTime}
                      />
-                  ) : lastUpload ? (
+                  ) : resource?.upcoming ? (
+                     <UpcomingComponent
+                        data={resource?.upcoming}
+                        targetTime={targetTime}
+                     />
+                  ) : resource?.lastUpload ? (
                      <LastUploadComponent
-                        data={lastUpload}
+                        data={resource?.lastUpload}
                         targetTime={targetTime}
                      />
                   ) : (
