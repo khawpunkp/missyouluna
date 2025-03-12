@@ -61,7 +61,7 @@ export default function LastUploadComponent({
          <TweetButton
             text={`คิดถึงลูน่าค้าบ\nไม่ได้ดูไลฟ์ลูน่ามา ${timeLeft.format(
                'D วัน HH ชั่วโมง mm นาที ss วินาที',
-            )} แล้ว\n`}
+            )} แล้ว\n#Trixarium`}
          />
       </motion.div>
    );
