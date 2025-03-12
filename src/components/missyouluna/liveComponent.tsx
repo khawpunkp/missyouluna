@@ -29,7 +29,9 @@ export default function LiveComponent({
             </picture>
             <p className='text-xl'>ไปดูดิ</p>
          </div>
-         <TweetButton />
+         <TweetButton
+            text={`คิดถึงลูน่าค้าบ แต่ลูน่ามาไลฟ์แล้ว เย้ \nไปดูกัน!\nhttps://www.youtube.com/watch?v=${data.id}\n#Trixarium`}
+         />
       </motion.div>
    );
 }

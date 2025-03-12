@@ -1,8 +1,9 @@
 import { VideoResourceDto } from '@/dto/dto';
+import buddhistDayjs from '@/utils/dayjs';
 import { Broadcast } from '@phosphor-icons/react';
-import dayjs from 'dayjs';
-import TimerComponent from './timerComponent';
+import { Duration } from 'dayjs/plugin/duration';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export default function VideoCard({
    data,
@@ -13,6 +14,28 @@ export default function VideoCard({
    targetTime: string | undefined;
    isUpload?: boolean;
 }) {
+
+   const [timeLeft, setTimeLeft] = useState<Duration>(buddhistDayjs.duration(0));
+
+   useEffect(() => {
+      if (!targetTime) return;
+      const interval = setInterval(() => {
+         const now = buddhistDayjs();
+         const target = buddhistDayjs(targetTime);
+         const diff = now.diff(target);
+         const newDuration = buddhistDayjs.duration(diff);
+
+         if (diff <= 0) {
+            clearInterval(interval);
+            setTimeLeft(buddhistDayjs.duration(0));
+         } else {
+            setTimeLeft(newDuration);
+         }
+      }, 1000);
+
+      return () => clearInterval(interval);
+   }, [targetTime]);
+
    return (
       <motion.div
          whileHover={{
@@ -41,7 +64,7 @@ export default function VideoCard({
                         }
                      >
                         {<Broadcast color='white' size={24} />}
-                        <TimerComponent targetTime={targetTime} isLiveTimer />
+                        <span>{timeLeft.format('HH:mm:ss')}</span>
                      </div>
                   )}
                   {data.snippet.liveBroadcastContent !== 'live' && (
@@ -51,7 +74,7 @@ export default function VideoCard({
                         }
                      >
                         {<Broadcast color='white' size={24} />}
-                        {dayjs(targetTime).format('ddd DD MMM เวลา HH:mm น.')}
+                        {buddhistDayjs(targetTime).format('ddd DD MMM เวลา HH:mm น.')}
                      </div>
                   )}
                </>
@@ -62,7 +85,7 @@ export default function VideoCard({
             {isUpload && (
                <p>
                   {'อัปโหลดเมื่อ ' +
-                     dayjs(targetTime).format('DD MMM เวลา HH:mm น.')}
+                     buddhistDayjs(targetTime).format('DD MMM เวลา HH:mm น.')}
                </p>
             )}
          </div>

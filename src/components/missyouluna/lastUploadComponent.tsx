@@ -1,9 +1,11 @@
 import { VideoResourceDto } from '@/dto/dto';
 import VideoCard from './videoCard';
-import TimerComponent from './timerComponent';
 import TweetButton from './tweetButton';
 import { childrenContainerVariants } from '@/const/animation';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import buddhistDayjs from '@/utils/dayjs';
+import { Duration } from 'dayjs/plugin/duration';
 
 export default function LastUploadComponent({
    data,
@@ -12,6 +14,27 @@ export default function LastUploadComponent({
    data: VideoResourceDto;
    targetTime: string | undefined;
 }) {
+   const [timeLeft, setTimeLeft] = useState<Duration>(buddhistDayjs.duration(0));
+
+   useEffect(() => {
+      if (!targetTime) return;
+      const interval = setInterval(() => {
+         const now = buddhistDayjs();
+         const target = buddhistDayjs(targetTime);
+         const diff = now.diff(target);
+         const newDuration = buddhistDayjs.duration(diff);
+
+         if (diff <= 0) {
+            clearInterval(interval);
+            setTimeLeft(buddhistDayjs.duration(0));
+         } else {
+            setTimeLeft(newDuration);
+         }
+      }, 1000);
+
+      return () => clearInterval(interval);
+   }, [targetTime]);
+
    return (
       <motion.div
          variants={childrenContainerVariants}
@@ -23,7 +46,7 @@ export default function LastUploadComponent({
             </p>
             <p className='text-2xl mobile:text-xl align-bottom'>
                <span className='font-semibold'>
-                  <TimerComponent targetTime={targetTime} />
+                  {timeLeft.format('D วัน HH ชั่วโมง mm นาที ss วินาที')}
                </span>
                <span>{' ที่แล้ว'}</span>
             </p>
@@ -35,7 +58,11 @@ export default function LastUploadComponent({
             </picture>
             <p className='text-xl'>#ลูน่าไปไหน</p>
          </div>
-         <TweetButton />
+         <TweetButton
+            text={`คิดถึงลูน่าค้าบ\nไม่ได้ดูไลฟ์ลูน่ามา ${timeLeft.format(
+               'D วัน HH ชั่วโมง mm นาที ss วินาที',
+            )} แล้ว\n`}
+         />
       </motion.div>
    );
 }

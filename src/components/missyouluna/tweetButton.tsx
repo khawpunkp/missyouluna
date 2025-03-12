@@ -1,7 +1,8 @@
 import { XLogo } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
 
-export default function TweetButton() {
+export default function TweetButton({ text }: { text?: string }) {
+   const twitterText = !!text ? text : 'คิดถึงลูน่าค้าบ #Trixarium';
    return (
       <motion.a
          whileHover={{
@@ -11,7 +12,9 @@ export default function TweetButton() {
          className={
             'flex gap-2 mobile:gap-1 items-center text-xl mobile:text-base rounded-full py-2 px-4 hover:cursor-pointer bg-primary text-white'
          }
-         href='https://twitter.com/intent/tweet?hashtags=Trixarium&related=twitterapi%2Ctwitter&text=คิดถึงลูน่าค้าบ'
+         href={`https://twitter.com/intent/tweet?related=twitterapi%2Ctwitter&text=${encodeURIComponent(
+            twitterText,
+         )}`}
          target='_blank'
          rel='noopener noreferrer'
       >
