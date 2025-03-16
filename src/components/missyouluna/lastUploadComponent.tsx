@@ -14,7 +14,9 @@ export default function LastUploadComponent({
    data: VideoResourceDto;
    targetTime: string | undefined;
 }) {
-   const [timeLeft, setTimeLeft] = useState<Duration>(buddhistDayjs.duration(0));
+   const [timeLeft, setTimeLeft] = useState<Duration>(
+      buddhistDayjs.duration(0),
+   );
 
    useEffect(() => {
       if (!targetTime) return;
@@ -59,9 +61,9 @@ export default function LastUploadComponent({
             <p className='text-xl'>#ลูน่าไปไหน</p>
          </div>
          <TweetButton
-            text={`คิดถึงลูน่าค้าบ\nไม่ได้ดูไลฟ์ลูน่ามา ${timeLeft.format(
+            text={`คิดถึงลูน่าค้าบ\nไม่ได้เจอมา ${timeLeft.format(
                'D วัน HH ชั่วโมง mm นาที ss วินาที',
-            )} แล้ว\n#Trixarium`}
+            )} แล้ว 😭\n#Trixarium`}
          />
       </motion.div>
    );
